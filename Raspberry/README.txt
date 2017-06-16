@@ -1,4 +1,4 @@
-Ejecutable "qtwebsocketserver"
+Notas:
 
 - Para proceder con la costrucción del ejecutable, se deben instalar las siguientes librerias:
 
@@ -6,10 +6,11 @@ Ejecutable "qtwebsocketserver"
 						 libqt5websockets5-dev
 						 libqt5sql5
 						 libqt5network5
-						 t5-default
+						 qt5-default
 						 qt5-qmake
 						 libqt5widgets5
 
 - Para compilar y crear ejecutable: 
+	
 	qmake qtwebsocketserver.pro
 	make
