@@ -1,3 +1,5 @@
+
+
 #ifndef ID003_HPP
 #define ID003_HPP
 
@@ -18,6 +20,9 @@ public:
     void readExisting();
     void setEnableBillfold(const bool& bEnableBillfold);
     static QString deviceFile(const QString& sFilter);
+
+public Q_SLOTS:
+    void sendControlMsg(QString msgValue);
 
 signals:
     /**
