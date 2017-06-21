@@ -27,11 +27,11 @@ public Q_SLOTS:
 signals:
     /**
      * Señal emitida cuando se detecta un billete.
-     *
      * @param iBillValue Valor del billete detectado.
      *
      */
     void billDetected(const int& iBillValue);
+    void logMsg(QString warningMsg);
 
 protected:
     Command processMessage(char * rxData);

@@ -155,16 +155,17 @@ void ID003::run()
 {
     // Abre el puerto
     _iFDPort = open(_sPortPath.toStdString().c_str(), O_RDWR | O_NOCTTY);
+    qDebug() << "Port:" << _iFDPort;
 
     if (_iFDPort < 0)
     {
-        qDebug() << "Unable open port:" << _iFDPort;
-        //std::perror("Open port: unable open serial port.");
+        emit logMsg("{\"error\":\"true\",\"detail\":\"unable open port\"}");                              /*emit*/
+        //std::perror("Unable open serial port.");
         stop();
     }
     else
     {
-        qDebug() << "Open port:" << _iFDPort;
+        emit logMsg("{\"advice\":\"true\",\"detail\":\"enabled port\"}");
         struct termios options;
         char szInBuffer[32];
 
@@ -179,7 +180,7 @@ void ID003::run()
         options.c_iflag = IGNPAR | IGNBRK;
         options.c_oflag = 0;
 
-        // Deshabilta Flow Control
+        // Deshabilita Flow Control
         options.c_cflag &= ~ CRTSCTS;
         // RAW input
         options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
@@ -256,7 +257,7 @@ void ID003::run()
 
 ID003::Command ID003::processMessage(char * rxData)
 {
-    qDebug() << "Processing...";
+    //qDebug() << "Processing...";
     Command response = None;
 
     switch (rxData[0])
@@ -322,13 +323,22 @@ ID003::Command ID003::processMessage(char * rxData)
     return response;
 }
 
-// Método que se ejecuta al emitirse la señal msgDetected
+//El siguiente método se ejecuta según de la orden on/off enviada a través del WebSocket.
 void ID003::sendControlMsg(QString socketMsg){
     //qDebug() << "msgValue:" << msgValue;
 
     if (socketMsg == "on"){
         start();
+        emit logMsg("{\"advice\":\"true\",\"detail\":\"started\"}");
     } else if (socketMsg == "off"){
+        if(status() == Stopped){
+            emit logMsg("{\"error\":\"true\",\"detail\":\"no process has been stopped\"}");
+        } else {
+            stop();
+            emit logMsg("{\"advice\":\"true\",\"detail\":\"stopped\"}");
+        }
+    } else {
         stop();
+        emit logMsg("{\"error\":\"true\",\"detail\":\"unknow statement\"}");
     }
 }

@@ -31,8 +31,9 @@ EchoServer::~EchoServer()
 
 void EchoServer::onNewConnection()
 {
-    if (m_debug)
-            qDebug() << "New socket connection!" ;
+    if (m_debug){
+        qDebug() << "New socket connection";
+    }
 
     QWebSocket *pSocket = m_pWebSocketServer->nextPendingConnection();
 
@@ -47,14 +48,14 @@ void EchoServer::processTextMessage(QString message)
 {
     //QWebSocket *pClient = qobject_cast<QWebSocket *>(sender());
     if (m_debug){
-        qDebug() << "Message received:" << message;
+        qDebug() << "Received:" << message;
         emit socketMsgDetected(message);                                      /*emit*/
     }
     /*if (pClient) {
         pClient->sendTextMessage(message);
     }*/
     //sendMessage(pClient,message);
-    broadCast(message);
+    //broadCast(message);
 }
 
 void EchoServer::broadCast(QString message)
@@ -62,7 +63,6 @@ void EchoServer::broadCast(QString message)
 
     for( int i=0; i<m_clients.count(); ++i ){
         QWebSocket *pClient = qobject_cast<QWebSocket *>(m_clients.at(i));
-
         sendMessage(pClient,message);
     }
 
@@ -98,12 +98,12 @@ void EchoServer::socketDisconnected()
 
     if(m_debug){
         qDebug() << "Socket disconnected!"; //<< pClient;
-        emit socketMsgDetected("off");                                      /*emit*/
     }
 
     if(pClient) {
         m_clients.removeAll(pClient);
         pClient->deleteLater();
+        emit socketMsgDetected("off");                                      /*emit*/
     }
 
 }
@@ -112,7 +112,6 @@ void EchoServer::socketDisconnected()
 void EchoServer::sendIntMessage(const int& iBillValue)
 {
     QString message = QString::number(iBillValue);
-    //qDebug() << "sendIntMessage:" << message;
 
     broadCast(message);
 }

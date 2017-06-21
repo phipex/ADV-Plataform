@@ -27,14 +27,14 @@ int main(int argc, char *argv[])
     EchoServer *server = new EchoServer(port, true);    
 
     QString sPortPath = ID003::billfoldPortPath();
-    //qDebug() << "sPortPath" << sPortPath;
+    qDebug() << "sPortPath" << sPortPath;
 
     ID003 *billetero = new ID003(sPortPath);
-
+    //billetero->start();
 
     QObject::connect(server, &EchoServer::closed, &a, &QCoreApplication::quit);
     QObject::connect(billetero, &ID003::billDetected, server, &EchoServer::sendIntMessage);
     QObject::connect(server, &EchoServer::socketMsgDetected, billetero, &ID003::sendControlMsg);
-
+    QObject::connect(billetero, &ID003::logMsg, server, &EchoServer::broadCast);
     return a.exec();
 }

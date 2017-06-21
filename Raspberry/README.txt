@@ -1,6 +1,6 @@
 README
 
-- Se debe configurar permisos del puerto, al cual está conectado el billetero, para el usuario en linux.
+- Se debe configurar permisos del puerto al cual está conectado el billetero para el usuario en linux.
 	
 	Comando:
 		$ sudo chown user.user ttyUSB0

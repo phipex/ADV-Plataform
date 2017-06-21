@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_ID003_t {
-    QByteArrayData data[6];
-    char stringdata[55];
+    QByteArrayData data[8];
+    char stringdata[73];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,11 +33,13 @@ QT_MOC_LITERAL(0, 0, 5),
 QT_MOC_LITERAL(1, 6, 12),
 QT_MOC_LITERAL(2, 19, 0),
 QT_MOC_LITERAL(3, 20, 10),
-QT_MOC_LITERAL(4, 31, 14),
-QT_MOC_LITERAL(5, 46, 8)
+QT_MOC_LITERAL(4, 31, 6),
+QT_MOC_LITERAL(5, 38, 10),
+QT_MOC_LITERAL(6, 49, 14),
+QT_MOC_LITERAL(7, 64, 8)
     },
-    "ID003\0billDetected\0\0iBillValue\0"
-    "sendControlMsg\0msgValue"
+    "ID003\0billDetected\0\0iBillValue\0logMsg\0"
+    "warningMsg\0sendControlMsg\0msgValue"
 };
 #undef QT_MOC_LITERAL
 
@@ -47,24 +49,26 @@ static const uint qt_meta_data_ID003[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       2,   14, // methods
+       3,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   24,    2, 0x06 /* Public */,
+       1,    1,   29,    2, 0x06 /* Public */,
+       4,    1,   32,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    1,   27,    2, 0x0a /* Public */,
+       6,    1,   35,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    3,
+    QMetaType::Void, QMetaType::QString,    5,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QString,    5,
+    QMetaType::Void, QMetaType::QString,    7,
 
        0        // eod
 };
@@ -75,7 +79,8 @@ void ID003::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
         ID003 *_t = static_cast<ID003 *>(_o);
         switch (_id) {
         case 0: _t->billDetected((*reinterpret_cast< const int(*)>(_a[1]))); break;
-        case 1: _t->sendControlMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->logMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->sendControlMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -85,6 +90,12 @@ void ID003::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void 
             typedef void (ID003::*_t)(const int & );
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ID003::billDetected)) {
                 *result = 0;
+            }
+        }
+        {
+            typedef void (ID003::*_t)(QString );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&ID003::logMsg)) {
+                *result = 1;
             }
         }
     }
@@ -115,13 +126,13 @@ int ID003::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 2)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 2;
+        _id -= 3;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 2)
+        if (_id < 3)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 2;
+        _id -= 3;
     }
     return _id;
 }
@@ -131,5 +142,12 @@ void ID003::billDetected(const int & _t1)
 {
     void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
+}
+
+// SIGNAL 1
+void ID003::logMsg(QString _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_END_MOC_NAMESPACE
