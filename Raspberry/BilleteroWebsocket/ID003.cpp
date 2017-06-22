@@ -339,6 +339,6 @@ void ID003::sendControlMsg(QString socketMsg){
         }
     } else {
         stop();
-        emit logMsg("{\"error\":\"true\",\"detail\":\"unknow statement - process was stopped\"}");
+        emit logMsg("{\"error\":\"true\",\"detail\":\"unknow statement - process was stopped\"}"); 
     }
 }
