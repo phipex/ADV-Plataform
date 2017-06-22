@@ -1,3 +1,5 @@
+
+
 #ifndef ID003_HPP
 #define ID003_HPP
 
@@ -19,14 +21,17 @@ public:
     void setEnableBillfold(const bool& bEnableBillfold);
     static QString deviceFile(const QString& sFilter);
 
+public Q_SLOTS:
+    void sendControlMsg(QString msgValue);
+
 signals:
     /**
      * Señal emitida cuando se detecta un billete.
-     *
      * @param iBillValue Valor del billete detectado.
      *
      */
     void billDetected(const int& iBillValue);
+    void logMsg(QString warningMsg);
 
 protected:
     Command processMessage(char * rxData);

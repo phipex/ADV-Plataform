@@ -1,3 +1,5 @@
+
+
 // Own
 #include <ID003.hpp>
 //#include <Global.hpp>
@@ -9,6 +11,7 @@
 
 #include <QDir>
 #include <QStringList>
+#include "qdebug.h"
 
 int billValue[10] = { 1000, 2000, 5000, 10000, 20000, 50000, 0, 0, 0, 0 };                         // Valor del billete en pesos
 
@@ -25,6 +28,26 @@ ID003::ID003(const QString& sPortPath, QObject * pParent):
 QString ID003::billfoldPortPath()
 {
     return deviceFile("ttyBill*");
+}
+
+
+QString ID003::deviceFile(const QString& sFilter)
+{
+   QString DEV_DIR_PATH = "/dev/ies/";
+
+   QDir dir(DEV_DIR_PATH);
+
+   if (dir.exists())
+   {
+       dir.setFilter(QDir::Files);
+       dir.setNameFilters(QStringList() << sFilter);
+
+       QStringList entries = dir.entryList();
+
+       return (entries.size() > 0)?QString(DEV_DIR_PATH).append(entries.first()):QString();
+   }
+   else
+       return QString();
 }
 
 int ID003::billInProcess()
@@ -128,82 +151,21 @@ void ID003::readExisting()
     }
 }
 
-ID003::Command ID003::processMessage(char * rxData)
-{
-    Command response = None;
-
-    switch (rxData[0])
-    {
-    case 0x11:                                              // Enabled idling
-        if (_bEnableBillfold == false)
-            idcSendComand(response = DisableAceptor);       // Envia comando deshabilitar billetero
-        break;
-
-    case 0x12:                                              // Accepting
-        break;
-
-    case 0x13:                                              // Escrow
-        if (rxData[1] > 0x60 && rxData[1] < 0x69)
-        {
-            _iLastBill = rxData[1] - 0x61;
-            _bTicketInProcess = true;
-            idcSendComand(response = Stack1);               // Envia comando STACK 1
-        }
-        else
-        {
-            _bTicketInProcess = false;
-            idcSendComand(response = Return);               // Envia comando RETURN
-        }
-        break;
-
-    case 0x14:                                              // Stacking
-        break;
-
-    case 0x15:                                              // Vend Valid
-        if (_bTicketInProcess == true)
-            idcSendComand(response = Ack);                  // Envia comando ACK
-        break;
-
-    case 0x16:                                              // STACKED
-        if (_bTicketInProcess == true)
-        {
-            int iBill = billInProcess();
-            _iLastBill = -1;
-            _bTicketInProcess = false;
-
-            if (iBill > 0)
-                emit billDetected(iBill);
-            // std::cout << "Billete recibido con codigo: " << ultimo_billete << "\nCreditos: " << sas_0x0c_credits << "\nDinero: " << dinero << std::endl;
-        }
-        break;
-
-    case 0x1a:                                              // DISABLE
-        if (_bEnableBillfold == true)
-            idcSendComand(response = EnableAceptor);        // Envia comando de habilitar billetero
-        break;
-
-    case 0x40:                                              // POWER UP
-    case 0x41:                                              // POWER UP BILL ACCEPT
-    case 0x42:                                              // POWER UP BILL STACK
-        idcSendComand(response = Reset);                    // Envia comando de reset
-        break;
-    }
-
-    return response;
-}
-
 void ID003::run()
 {
     // Abre el puerto
     _iFDPort = open(_sPortPath.toStdString().c_str(), O_RDWR | O_NOCTTY);
+    // wasqDebug() << "Port:" << _iFDPort;
 
     if (_iFDPort < 0)
     {
-        //std::perror("Open port: unable open serial port.");
+        emit logMsg("{\"error\":\"true\",\"detail\":\"unable open port\"}");                              /*emit*/
+        //std::perror("Unable open serial port.");
         stop();
     }
     else
     {
+        emit logMsg("{\"advice\":\"true\",\"detail\":\"enabled port\"}");
         struct termios options;
         char szInBuffer[32];
 
@@ -218,7 +180,7 @@ void ID003::run()
         options.c_iflag = IGNPAR | IGNBRK;
         options.c_oflag = 0;
 
-        // Deshabilta Flow Control
+        // Deshabilita Flow Control
         options.c_cflag &= ~ CRTSCTS;
         // RAW input
         options.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
@@ -292,21 +254,91 @@ void ID003::run()
     }
 }
 
-QString ID003::deviceFile(const QString& sFilter) 
-{ 
-   QString DEV_DIR_PATH = "/dev/ies";
 
-   QDir dir(DEV_DIR_PATH); 
+ID003::Command ID003::processMessage(char * rxData)
+{
+    //qDebug() << "Processing...";
+    Command response = None;
 
-   if (dir.exists()) 
-   {    
-       dir.setFilter(QDir::Files); 
-       dir.setNameFilters(QStringList() << sFilter); 
+    switch (rxData[0])
+    {
+    case 0x11:                                              // ralenti
+        if (_bEnableBillfold == false)
+            idcSendComand(response = DisableAceptor);       // Envia comando DESHABILITAR billetero
+        break;
 
-       QStringList entries = dir.entryList(); 
+    case 0x12:                                              // accepting
+        break;
 
-       return (entries.size() > 0)?QString(DEV_DIR_PATH).append(entries.first()):QString(); 
-   }    
-   else 
-       return QString(); 
+    case 0x13:                                              // accepted
+        if (rxData[1] > 0x60 && rxData[1] < 0x69)
+        {
+            _iLastBill = rxData[1] - 0x61;
+            _bTicketInProcess = true;
+            idcSendComand(response = Stack1);               // Envia comando STACK 1
+        }
+        else
+        {
+            _bTicketInProcess = false;
+            idcSendComand(response = Return);               // Envia comando RETURN
+        }
+        break;
+
+    case 0x14:                                              // stacking
+        break;
+
+    case 0x15:                                              // acking
+        if (_bTicketInProcess == true)
+            idcSendComand(response = Ack);                  // Envia comando ACK
+        break;
+
+    case 0x16:                                              // stacked
+        if (_bTicketInProcess == true){
+
+            int iBill = billInProcess();                    // bill in process
+            _iLastBill = -1;
+            _bTicketInProcess = false;
+
+            if (iBill > 0){
+                qDebug() << iBill;
+                emit billDetected(iBill);                                      /*emit*/
+            }
+
+            // std::cout << "Billete recibido con codigo: " << ultimo_billete << "\nCreditos: " << sas_0x0c_credits << "\nDinero: " << dinero << std::endl;
+        }
+        break;
+
+    case 0x1a:                                              // disable
+        if (_bEnableBillfold == true)
+            idcSendComand(response = EnableAceptor);        // Envia comando de HABILITAR billetero
+        break;
+
+    case 0x40:                                              // POWER UP
+    case 0x41:                                              // POWER UP BILL ACCEPT
+    case 0x42:                                              // POWER UP BILL STACK
+        idcSendComand(response = Reset);                    // Envia comando de reset
+        break;
+    }
+
+    return response;
+}
+
+//El siguiente método se ejecuta según de la orden on/off enviada a través del WebSocket.
+void ID003::sendControlMsg(QString socketMsg){
+    //qDebug() << "msgValue:" << msgValue;
+
+    if (socketMsg == "on"){
+        start();
+        emit logMsg("{\"advice\":\"true\",\"detail\":\"process was started\"}");
+    } else if (socketMsg == "off"){
+        if(status() == Stopped){
+            emit logMsg("{\"error\":\"true\",\"detail\":\"no process to stopcd De\"}");
+        } else {
+            stop();
+            emit logMsg("{\"advice\":\"true\",\"detail\":\"process was stopped\"}");
+        }
+    } else {
+        stop();
+        emit logMsg("{\"error\":\"true\",\"detail\":\"unknow statement - process was stopped\"}");
+    }
 }

@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_EchoServer_t {
-    QByteArrayData data[10];
-    char stringdata[128];
+    QByteArrayData data[12];
+    char stringdata[156];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,18 +32,21 @@ static const qt_meta_stringdata_EchoServer_t qt_meta_stringdata_EchoServer = {
 QT_MOC_LITERAL(0, 0, 10),
 QT_MOC_LITERAL(1, 11, 6),
 QT_MOC_LITERAL(2, 18, 0),
-QT_MOC_LITERAL(3, 19, 14),
-QT_MOC_LITERAL(4, 34, 10),
-QT_MOC_LITERAL(5, 45, 15),
-QT_MOC_LITERAL(6, 61, 18),
-QT_MOC_LITERAL(7, 80, 7),
-QT_MOC_LITERAL(8, 88, 20),
-QT_MOC_LITERAL(9, 109, 18)
+QT_MOC_LITERAL(3, 19, 17),
+QT_MOC_LITERAL(4, 37, 9),
+QT_MOC_LITERAL(5, 47, 14),
+QT_MOC_LITERAL(6, 62, 10),
+QT_MOC_LITERAL(7, 73, 15),
+QT_MOC_LITERAL(8, 89, 18),
+QT_MOC_LITERAL(9, 108, 7),
+QT_MOC_LITERAL(10, 116, 20),
+QT_MOC_LITERAL(11, 137, 18)
     },
-    "EchoServer\0closed\0\0sendIntMessage\0"
-    "iBillValue\0onNewConnection\0"
-    "processTextMessage\0message\0"
-    "processBinaryMessage\0socketDisconnected"
+    "EchoServer\0closed\0\0socketMsgDetected\0"
+    "socketMsg\0sendIntMessage\0iBillValue\0"
+    "onNewConnection\0processTextMessage\0"
+    "message\0processBinaryMessage\0"
+    "socketDisconnected"
 };
 #undef QT_MOC_LITERAL
 
@@ -53,31 +56,33 @@ static const uint qt_meta_data_EchoServer[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       1,       // signalCount
+       2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   44,    2, 0x06 /* Public */,
+       1,    0,   49,    2, 0x06 /* Public */,
+       3,    1,   50,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       3,    1,   45,    2, 0x0a /* Public */,
-       5,    0,   48,    2, 0x08 /* Private */,
-       6,    1,   49,    2, 0x08 /* Private */,
-       8,    1,   52,    2, 0x08 /* Private */,
-       9,    0,   55,    2, 0x08 /* Private */,
+       5,    1,   53,    2, 0x0a /* Public */,
+       7,    0,   56,    2, 0x08 /* Private */,
+       8,    1,   57,    2, 0x08 /* Private */,
+      10,    1,   60,    2, 0x08 /* Private */,
+      11,    0,   63,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,    4,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int,    4,
+    QMetaType::Void, QMetaType::Int,    6,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,    7,
-    QMetaType::Void, QMetaType::QByteArray,    7,
+    QMetaType::Void, QMetaType::QString,    9,
+    QMetaType::Void, QMetaType::QByteArray,    9,
     QMetaType::Void,
 
        0        // eod
@@ -89,11 +94,12 @@ void EchoServer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         EchoServer *_t = static_cast<EchoServer *>(_o);
         switch (_id) {
         case 0: _t->closed(); break;
-        case 1: _t->sendIntMessage((*reinterpret_cast< const int(*)>(_a[1]))); break;
-        case 2: _t->onNewConnection(); break;
-        case 3: _t->processTextMessage((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 4: _t->processBinaryMessage((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
-        case 5: _t->socketDisconnected(); break;
+        case 1: _t->socketMsgDetected((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->sendIntMessage((*reinterpret_cast< const int(*)>(_a[1]))); break;
+        case 3: _t->onNewConnection(); break;
+        case 4: _t->processTextMessage((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 5: _t->processBinaryMessage((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 6: _t->socketDisconnected(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -103,6 +109,12 @@ void EchoServer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             typedef void (EchoServer::*_t)();
             if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&EchoServer::closed)) {
                 *result = 0;
+            }
+        }
+        {
+            typedef void (EchoServer::*_t)(QString );
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&EchoServer::socketMsgDetected)) {
+                *result = 1;
             }
         }
     }
@@ -133,13 +145,13 @@ int EchoServer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }
@@ -148,5 +160,12 @@ int EchoServer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 void EchoServer::closed()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, 0);
+}
+
+// SIGNAL 1
+void EchoServer::socketMsgDetected(QString _t1)
+{
+    void *_a[] = { 0, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
+    QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 QT_END_MOC_NAMESPACE

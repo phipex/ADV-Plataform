@@ -20,6 +20,12 @@ public:
 Q_SIGNALS:
     void closed();
 
+    /**
+     * Señal emitida cuando se detecta un mensaje.
+     * @param msgValue mensaje detectado.
+     */
+    void socketMsgDetected(QString socketMsg);
+
 public Q_SLOTS:
     void sendIntMessage(const int& iBillValue);
 
