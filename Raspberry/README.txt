@@ -12,7 +12,7 @@ README
 	libqt5network5
 	qt5-default
 	qt5-qmake
-	ibqt5widgets5
+	libqt5widgets5
 	
 	Comando:
 		$ sudo apt-get install libqt5webkit5
