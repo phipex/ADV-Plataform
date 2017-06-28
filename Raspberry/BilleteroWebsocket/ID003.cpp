@@ -155,7 +155,7 @@ void ID003::run()
 {
     // Abre el puerto
     _iFDPort = open(_sPortPath.toStdString().c_str(), O_RDWR | O_NOCTTY);
-    // wasqDebug() << "Port:" << _iFDPort;
+    qDebug() << "Port:" << _iFDPort;
 
     if (_iFDPort < 0)
     {
@@ -329,16 +329,17 @@ void ID003::sendControlMsg(QString socketMsg){
 
     if (socketMsg == "on"){
         start();
-        emit logMsg("{\"advice\":\"true\",\"detail\":\"process was started\"}");
+        emit logMsg("{\"advice\":\"true\",\"detail\":\"started\"}");
     } else if (socketMsg == "off"){
         if(status() == Stopped){
-            emit logMsg("{\"error\":\"true\",\"detail\":\"no process to stopcd De\"}");
+            emit logMsg("{\"error\":\"true\",\"detail\":\"no process has been stopped\"}");
         } else {
             stop();
-            emit logMsg("{\"advice\":\"true\",\"detail\":\"process was stopped\"}");
+            emit logMsg("{\"advice\":\"true\",\"detail\":\"stopped\"}");
         }
     } else {
         stop();
         emit logMsg("{\"error\":\"true\",\"detail\":\"unknow statement - process was stopped\"}"); 
+        emit logMsg("{\"error\":\"true\",\"detail\":\"unknow statement\"}");
     }
 }
