@@ -1,0 +1,71 @@
+/* app css stylesheet */
+@font-face {
+    font-family: Antipasto;
+    font-style: normal;
+    font-weight: normal;
+    src: local('Antipasto'), url('fonts/Antipasto.woff') format('woff');
+}
+
+body {
+    height: 95%;
+    min-height: 400px;
+    padding: 0px;
+    margin: 0px;
+    font-family: Antipasto;
+}
+
+.navbar, .fondo-wplay {
+    /*background-color: #12263b;*/
+    background: linear-gradient(to bottom right, #235BA8, #12263b);
+    /*background: linear-gradient(to bottom right, #235BA8, #12263b);*/
+    color: white;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus{
+    color: white;
+}
+
+.full-height {
+    height: 50%;
+    min-height: 60px;
+}
+
+.part-height {
+    /*height: 95%;*/
+    min-height: 600px;
+}
+
+.logo-wplay {
+    /*height: 40%;*/
+    padding: 10px;
+}
+
+.logos_footer .right-block {
+    height: 100px;
+    float: right;
+    padding: 20px;
+}
+
+.logos_footer .left-block {
+    height: 100px;
+    float: left;
+    padding: 20px;
+}
+
+.text-center{
+    font-weight: normal;
+    font-size: larger;
+    margin-top: 5px;
+}
+
+.cedula-ingresar {
+    width: 50%;
+    min-width: 200px;
+}
+
+.btn-numpad {
+    margin: 5px;
+    background: #12263b;
+    border-color: #12263b;
+}
+
