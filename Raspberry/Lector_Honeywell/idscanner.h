@@ -1,10 +1,11 @@
 #ifndef IDSCANNER_H
 #define IDSCANNER_H
 
-class IDScanner
-{
+class IDScanner {
+
 public:
     IDScanner();
+
 };
 
 #endif // IDSCANNER_H
