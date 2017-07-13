@@ -332,7 +332,7 @@ void ID003::sendControlMsg(QString socketMsg){
         emit logMsg("{\"advice\":\"true\",\"detail\":\"started\"}");
     } else if (socketMsg == "off"){
         if(status() == Stopped){
-            emit logMsg("{\"error\":\"true\",\"detail\":\"no process has been stopped\"}");
+            emit logMsg("{\"advice\":\"true\",\"detail\":\"no process has been stopped\"}");
         } else {
             stop();
             emit logMsg("{\"advice\":\"true\",\"detail\":\"stopped\"}");

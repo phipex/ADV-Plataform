@@ -48,7 +48,7 @@ void EchoServer::processTextMessage(QString message)
 {
     //QWebSocket *pClient = qobject_cast<QWebSocket *>(sender());
     if (m_debug){
-        qDebug() << "Received:" << message;
+        qDebug() << "Message received:" << message;
         emit socketMsgDetected(message);                                      /*emit*/
     }
     /*if (pClient) {
