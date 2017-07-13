@@ -123,6 +123,34 @@
         {{ body }}
       </div>
     </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">Ok</button>
+
+    </div>
+  </script>
+  <script type="text/ng-template" id="loginModal.html">
+    <div class="modal-header">
+      <h2 class="modal-title">Usuario encontrado</h2>
+    </div>
+    <div class="modal-body">
+      <div>
+        Desea realizar la recarga a nombre de <strong>{{nombre | uppercase}}</strong>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">Si, realizar recarga</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">No, regresar al inicio</button>
+    </div>
+  </script>
+  <script type="text/ng-template" id="loadingModal.html">
+    <div class="modal-header center-block text-center">
+      <h2 class="modal-title">Cargando...</h2>
+    </div>
+    <div class="modal-body">
+      <div class="center-block text-center">
+        <img src="images/ezgif.com-crop.gif" alt="Cargando ...">
+      </div>
+    </div>
 
   </script>
     <!-- In production use:

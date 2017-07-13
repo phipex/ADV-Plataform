@@ -27,7 +27,7 @@ app.service('WplayUsuarioService',WplayUsuarioService);
 WplayUsuarioService.$inject = ['$http','$q'];
 
 function WplayUsuarioService($http,$q) {
-    var urlServer = 'https://l3admin.wplay.co/actions/punto-venta/recargas.php/consulta';
+    var urlServer = 'https://aliados.wplay.co/actions/punto-venta/recargas.php/recargas';
 
     return {
         consultaUsuario:consultaUsuario
@@ -37,7 +37,7 @@ function WplayUsuarioService($http,$q) {
     function consultaUsuario(cedula) {
         console.log(cedula);
         var objConsulta = {
-                "id_punto": "14416",
+                "id_punto": "23",
                 "token_seguridad": "ODk2NDBiNjBjOGZiMjkyOGFlZmZiYThi%2Fd41d8cd98f00b204e9800998ecf8427e%2Fe7c9a98d853f6d3d4df263eefc0fba3d",
                 "cedula": cedula,
                 "consulta": "consulta"
@@ -250,6 +250,7 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
     home.onOut = onOut;
     home.onClickKeyNum = onClickKeyNum;
 
+    home.modalLoading = null;
 
 
     $scope.WebSocket = Billetero;
@@ -263,51 +264,51 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
     $scope.estadoActual = null;
     $scope.detailBilletero = null;
     $scope.estado = Billetero.state;
-    $scope.open=function(){
-        if($scope.estado !== 'OPEN'){
+    $scope.open = function () {
+        if ($scope.estado !== 'OPEN') {
             Billetero.open();
         }
 
     };
     Billetero.open();
-    var onMensaje = function(mesageEvent){
+    var onMensaje = function (mesageEvent) {
         //console.log("++++++++++");
         //var _this = this;
         //console.log("_this",_this);
         var objetoMsg = JSON.parse(mesageEvent.data);
-        console.log("objetoMsg",objetoMsg);
+        console.log("objetoMsg", objetoMsg);
 
         //console.log(mesageEvent);
         //console.log(WebSocket);
 
         $timeout(function timeoutrecarga() {
-            console.log("mensaje recibido",objetoMsg );
+            console.log("mensaje recibido", objetoMsg);
             gestionMensajeBilletero(objetoMsg);
             //console.log($scope.recarga);
             //addRecarga(objetoMsg.valor);
 
             //mostrarRecarga(acciones.recarga.valor);
             //console.log($scope.recarga.valor+'');
-        },500);
+        }, 500);
     };
 
-    function gestionMensajeBilletero(objetoMsg){
+    function gestionMensajeBilletero(objetoMsg) {
 
-        if(objetoMsg.error){
+        if (objetoMsg.error) {
             var mensaje = objetoMsg.detail;
             $scope.detailBilletero = mensaje;
             return;
             //openModal('Error en el billetero', mensaje);
         }
-        if(objetoMsg.advice){
+        if (objetoMsg.advice) {
             var detail = objetoMsg.detail;
             $scope.detailBilletero = detail;
             return;
         }
-        if(isNumeric(objetoMsg)){
+        if (isNumeric(objetoMsg)) {
             addRecarga(objetoMsg);
-        }else{
-            console.log("NO SE CUANDO PASA",objetoMsg);
+        } else {
+            console.log("NO SE CUANDO PASA", objetoMsg);
         }
 
 
@@ -319,7 +320,7 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
 
     //console.log("control.addListener");
     Billetero.addListener(onMensaje);
-    $scope.$watch("estado()",function watchestado(){
+    $scope.$watch("estado()", function watchestado() {
         var estadoActual = $scope.estado();
         $scope.estadoActual = stateDic[estadoActual];
     });
@@ -327,7 +328,7 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
     function addRecarga(valor) {
         //acciones.recarga.valor += valor;
         //console.log($scope.recarga.valor+'');
-        home.apuesta  += valor;
+        home.apuesta += valor;
         mostrarRecarga(valor);
         //console.log($scope.recarga.valor+'');
     }
@@ -335,7 +336,7 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
     function mostrarRecarga(valor) {
 
 
-        openModal('Nuevo Billete', 'Un nuev billete de $'+valor+' pesos a sido ingresado');
+        openModal('Nuevo Billete', 'Un nuev billete de $' + valor + ' pesos a sido ingresado');
     }
 
     function onOut() {
@@ -349,7 +350,9 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
 
     function onclickIngresar() {
         console.log(home.cedula);
-        if(home.cedula){
+        if (home.cedula) {
+
+            openLoadModal();
             var encontrado = function encontrado(nombre) {
                     //ingresar
                     console.log(nombre);
@@ -357,16 +360,18 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
                     home.cliente = nombre;
                     //activar billetero
                     Billetero.activarBilletero();
-                    openModal('Login correcto', 'La cedula ingresada corresponde a '+nombre);
+                    openModalLogin(nombre);
+                    home.modalLoading.close();
                 },
                 error = function error(error) {
+                    home.modalLoading.close();
                     Billetero.desactivarBilletero();
-                    openModal('Error al ingresa', 'Error al ingresar a la aplicacion');
+                    openModal('Error al encontrar el usuario', 'La cedula ingresada no esta inscrita en nuestro sistema');
                 };
 
             WplayUsuarioService.consultaUsuario(home.cedula)
-                .then(encontrado,error);
-        }else{
+                .then(encontrado, error);
+        } else {
             //sacar mensaje de error de que la cedula es obligatoria
             Billetero.desactivarBilletero();
             openModal('Error al ingresa', 'Error al ingresar a la aplicacion');
@@ -376,8 +381,10 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
     }
 
     function onClickRecargar() {
-        if(home.apuesta){
+        if (home.apuesta) {
+            LoadModal();
             var recargado = function (data) {
+                    home.modalLoading.close();
                     Billetero.desactivarBilletero();
                     openModal('Recarga Exitosa', 'Su recarga ha sido realizada exitosamente');
                     onOut();
@@ -385,12 +392,15 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
                 },
                 errorRecarga = function (error) {
                     //Billetero.desactivarBilletero();
+                    home.modalLoading.close();
                     openModal('Error en la recarga', 'La recarga no pudo ser realizada exitosamente');
                     onOut();
                 };
-            WplayRecargaService.recarga(home.cedula,home.apuesta)
-                .then(recargado,errorRecarga);
+            WplayRecargaService.recarga(home.cedula, home.apuesta)
+                .then(recargado, errorRecarga);
 
+        }else{
+            openModal('Error en la recarga', 'Debe ingresar billetes para realizar la recarga');
         }
     }
 
@@ -399,11 +409,12 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
 
         var modalInstance = $uibModal.open({
             templateUrl: 'myModal.html',
-            controller: function($scope,titulo,body)
-            {
+            controller: function ($scope, titulo, body) {
                 $scope.titulo = titulo;
                 $scope.body = body;
-
+                $scope.ok=function () {
+                    $scope.$dismiss();
+                }
 
                 /* $scope.cancel = function ()
                  {
@@ -412,7 +423,7 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
             },
             //size: size,
             resolve: {
-                titulo: function() //scope del modal
+                titulo: function () //scope del modal
                 {
                     return titulo;
                 },
@@ -421,6 +432,57 @@ function ControllerHome($scope,$rootScope,config,WplayUsuarioService,Billetero,W
                 }
             }
         });
+    }
+
+    function openLoadModal() {
+
+
+        home.modalLoading = $uibModal.open({
+            templateUrl: 'loadingModal.html',
+            animation: false
+
+        });
+    }
+
+    function openModalLogin(nombre) {
+
+
+        var modalInstance = $uibModal.open({
+            templateUrl: 'loginModal.html',
+            controller: function($scope,nombre)
+            {
+                console.log("this",this);
+                console.log("$scope",$scope);
+
+
+                $scope.nombre = nombre;
+
+                console.log("modela::modalInstance",modalInstance);
+
+                $scope.ok=function ok() {
+                    $scope.$dismiss();
+
+                };
+                $scope.cancel=function cancel() {
+                    $scope.$close();
+                    home.onOut();
+                }
+
+                /* $scope.cancel = function ()
+                 {
+                 $modalInstance.dismiss('cancel');
+                 };*/
+            },
+            //size: size,
+            resolve: {
+                nombre: function() //scope del modal
+                {
+                    return nombre;
+                }
+            }
+        });
+
+        console.log("modalInstance",modalInstance);
     }
 
     function onClickKeyNum(numKey) {
