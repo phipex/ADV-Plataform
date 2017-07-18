@@ -29,8 +29,12 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li ng-show="home.hayLogin">  
-            <a ng-click="home.onOut()">{{home.cliente | uppercase}} Salir</a></li>
+            <li ng-show="home.hayLogin">
+              <a ng-click="home.addRecarga(10000)">10000</a>
+            </li>
+            <li ng-show="home.hayLogin">
+              <a ng-click="home.onOut()">{{home.cliente | uppercase}} Salir</a>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div><!--/.container-fluid -->
@@ -96,7 +100,7 @@
           </div>
 
           <div class="form-group center-block text-center">
-            <button type="button" ng-click="home.onclickIngresar()" class="btn btn-default btn-lg text-center">Entrar</button>            
+            <button type="button" ng-click="home.onclickIngresar()" class="btn btn-default text-center">Ingresar</button>
           </div>
         </form>        
       </div>  
@@ -152,6 +156,24 @@
       </div>
     </div>
 
+  </script>
+  <script type="text/ng-template" id="nuevoBillete.html">
+    <div class="modal-header center-block text-center">
+      <h2 class="modal-title">Nuevo Billete ingresado</h2>
+    </div>
+    <div class="modal-body">
+      <div class="center-block text-center">
+        Un nuevo billete de {{nuevoBillete | currency:"$":0}} ha sido agregado.
+        <br>
+        Hasta el momento ha ingresado {{total | currency:"$":0}} para su apuesta.
+        <br>
+        Desea realizar la recarga o ingresar mas billetes.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" type="button" ng-click="ok()">Si, realizar recarga</button>
+      <button class="btn btn-warning" type="button" ng-click="cancel()">No, ingresar mas billetes</button>
+    </div>
   </script>
     <!-- In production use:
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>

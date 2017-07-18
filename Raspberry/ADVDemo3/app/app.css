@@ -1,17 +1,19 @@
-/* app css stylesheet */
+/* app css stylesheet
 @font-face {
     font-family: Antipasto;
     font-style: normal;
     font-weight: normal;
+
     src: local('Antipasto'), url('fonts/Antipasto.woff') format('woff');
-}
+}*/
 
 body {
     height: 95%;
     min-height: 400px;
     padding: 0px;
     margin: 0px;
-    font-family: Antipasto;
+    /*font-family: Antipasto;*/
+
 }
 
 .navbar, .fondo-wplay {
@@ -53,8 +55,8 @@ body {
 }
 
 .text-center{
-    font-weight: normal;
-    font-size: larger;
+   /* font-weight: normal;
+    font-size: larger;*/
     margin-top: 5px;
 }
 
@@ -67,5 +69,16 @@ body {
     margin: 5px;
     background: #12263b;
     border-color: #12263b;
+}
+
+
+.center-modal {
+    position: fixed;
+    top: 25%;
+    left: 18.5%;
+    z-index: 1050;
+    width: 80%;
+    height: 80%;
+    margin-left: -10%;
 }
 
