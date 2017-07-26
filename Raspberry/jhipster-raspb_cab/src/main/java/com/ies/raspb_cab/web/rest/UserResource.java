@@ -6,6 +6,7 @@ import com.ies.raspb_cab.domain.User;
 import com.ies.raspb_cab.repository.UserRepository;
 import com.ies.raspb_cab.security.AuthoritiesConstants;
 import com.ies.raspb_cab.service.MailService;
+import com.ies.raspb_cab.service.QrcodeService;
 import com.ies.raspb_cab.service.UserService;
 import com.ies.raspb_cab.service.dto.UserDTO;
 import com.ies.raspb_cab.web.rest.vm.ManagedUserVM;
@@ -16,11 +17,18 @@ import io.swagger.annotations.ApiParam;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+<<<<<<< HEAD
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.*;
+
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +36,9 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
+
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * REST controller for managing users.
@@ -66,6 +77,11 @@ public class UserResource {
     private final MailService mailService;
 
     private final UserService userService;
+
+
+    @Autowired
+    QrcodeService qrcodeService;
+
 
     public UserResource(UserRepository userRepository, MailService mailService,
             UserService userService) {
@@ -194,4 +210,25 @@ public class UserResource {
         userService.deleteUser(login);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
     }
+
+
+    /**
+     * GET  /qrcode?text=  : get the QR code.
+     *
+     * @param text the text to convert
+     * @return the ResponseEntity with status 200 (OK) and the QR code
+     * or with status 400 (Bad Request) if @param is null, empty, or blank
+     */
+    @GetMapping(value = "/qrcode", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getQRCode(@RequestParam(value = "text", required = true) String text) {
+
+        log.info("Método get para generar código QR a partir del texto: {}", text);
+        try {
+            return ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
+                .body(qrcodeService.generateQRCodeAsync(text, 256, 256).get());
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "exception", ex.getLocalizedMessage())).body(null);
+        }
+    }
+
 }
