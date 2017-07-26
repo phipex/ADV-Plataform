@@ -2,11 +2,11 @@ package com.ies.raspb_cab.web.rest;
 
 import com.ies.raspb_cab.config.Constants;
 import com.codahale.metrics.annotation.Timed;
-import com.ies.raspb_cab.service.QrcodeService;
 import com.ies.raspb_cab.domain.User;
 import com.ies.raspb_cab.repository.UserRepository;
 import com.ies.raspb_cab.security.AuthoritiesConstants;
 import com.ies.raspb_cab.service.MailService;
+import com.ies.raspb_cab.service.QrcodeService;
 import com.ies.raspb_cab.service.UserService;
 import com.ies.raspb_cab.service.dto.UserDTO;
 import com.ies.raspb_cab.web.rest.vm.ManagedUserVM;

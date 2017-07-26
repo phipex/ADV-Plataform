@@ -157,4 +157,6 @@ MySQL 5.5
 		sudo apt-get install mysql-workbench
 
 
-Nota. Se debe crear base de datos y configurar user y password en proyecto JHipster previa instalación en Raspberry.
+Nota. 
+	Se debe crear base de datos en MySQL.
+	Se debe configurar user/password en el proyecto JHipster antes de su ejecución.

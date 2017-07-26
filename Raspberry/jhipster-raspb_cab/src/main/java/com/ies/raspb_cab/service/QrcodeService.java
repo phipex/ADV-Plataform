@@ -15,25 +15,27 @@
  */
 package com.ies.raspb_cab.service;
 
-    import java.io.*;
+import com.google.zxing.*;
+import com.google.zxing.client.j2se.*;
+import com.google.zxing.common.BitMatrix;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+import org.springframework.util.concurrent.ListenableFuture;
 
-    import org.slf4j.*;
-    import org.springframework.http.MediaType;
-    import org.springframework.scheduling.annotation.*;
-    import org.springframework.stereotype.Service;
-    import org.springframework.util.Assert;
-    import org.springframework.util.concurrent.ListenableFuture;
-
-    import com.google.zxing.*;
-    import com.google.zxing.client.j2se.*;
-    import com.google.zxing.common.BitMatrix;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 @Service
 public class QrcodeService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(QrcodeService.class);
 
-    public byte[] generateQRCode(String text, int width, int height) throws WriterException, IOException {
+    public byte[] generateQRCode(String text, int width, int height) throws IOException {
 
         Assert.hasText(text);
         Assert.isTrue(width > 0);
@@ -42,14 +44,23 @@ public class QrcodeService {
         LOGGER.info("Will generate image  text=[{}], width=[{}], height=[{}]", text, width, height);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        BitMatrix matrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height);
+        BitMatrix matrix = null;
+
+        try {
+            matrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height);
+        } catch (WriterException e) {
+            //e.printStackTrace();
+            LOGGER.error("",e);
+            matrix = null;
+        }
+
         MatrixToImageWriter.writeToStream(matrix, MediaType.IMAGE_PNG.getSubtype(), baos, new MatrixToImageConfig());
         return baos.toByteArray();
     }
 
     @Async
-    public ListenableFuture<byte[]> generateQRCodeAsync(String text, int width, int height) throws Exception {
-        return new AsyncResult<byte[]>(generateQRCode(text, width, height));
+    public ListenableFuture<byte[]> generateQRCodeAsync(String text, int width, int height) throws IOException {
+        return new AsyncResult<>(generateQRCode(text, width, height));
     }
 
 }
