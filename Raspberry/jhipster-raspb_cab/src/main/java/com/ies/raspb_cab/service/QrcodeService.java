@@ -49,7 +49,6 @@ public class QrcodeService {
         try {
             matrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height);
         } catch (WriterException e) {
-            //e.printStackTrace();
             LOGGER.error("",e);
             matrix = null;
         }
