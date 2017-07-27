@@ -1,6 +1,7 @@
 package co.com.ies.adv.backend.cabinas.service;
 
 import co.com.ies.adv.backend.cabinas.service.dto.CabinaDTO;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -39,4 +40,5 @@ public interface CabinaService {
      *  @param id the id of the entity
      */
     void delete(Long id);
+    
 }

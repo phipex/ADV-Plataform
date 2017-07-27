@@ -4,6 +4,7 @@ import co.com.ies.adv.backend.cabinas.BackendCabinasApp;
 import co.com.ies.adv.backend.cabinas.domain.User;
 import co.com.ies.adv.backend.cabinas.repository.UserRepository;
 import co.com.ies.adv.backend.cabinas.security.jwt.TokenProvider;
+import co.com.ies.adv.backend.cabinas.service.UserService;
 import co.com.ies.adv.backend.cabinas.web.rest.vm.LoginVM;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,12 +42,15 @@ public class UserJWTControllerIntTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private UserService userService;
 
     private MockMvc mockMvc;
 
     @Before
     public void setup() {
-        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager);
+        UserJWTController userJWTController = new UserJWTController(tokenProvider, authenticationManager, userService);
         this.mockMvc = MockMvcBuilders.standaloneSetup(userJWTController)
             .build();
     }

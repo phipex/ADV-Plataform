@@ -12,5 +12,5 @@ import org.springframework.data.jpa.repository.*;
 @SuppressWarnings("unused")
 @Repository
 public interface CabinaRepository extends JpaRepository<Cabina,Long> {
-    
+    Cabina findOneByUserId(Long userId);
 }
