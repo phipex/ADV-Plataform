@@ -1,0 +1,146 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myCabinaLabel" jhiTranslate="backendCabinasApp.cabina.home.createOrEditLabel">Create or edit a Cabina</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!cabina.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="cabina.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.idem" for="field_idem">Idem</label>
+            <input type="text" class="form-control" name="idem" id="field_idem"
+                [(ngModel)]="cabina.idem" required />
+            <div [hidden]="!(editForm.controls.idem?.dirty && editForm.controls.idem?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.idem?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.responsable" for="field_responsable">Responsable</label>
+            <input type="text" class="form-control" name="responsable" id="field_responsable"
+                [(ngModel)]="cabina.responsable" required />
+            <div [hidden]="!(editForm.controls.responsable?.dirty && editForm.controls.responsable?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.responsable?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.direccion" for="field_direccion">Direccion</label>
+            <input type="text" class="form-control" name="direccion" id="field_direccion"
+                [(ngModel)]="cabina.direccion" required />
+            <div [hidden]="!(editForm.controls.direccion?.dirty && editForm.controls.direccion?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.direccion?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.departamento" for="field_departamento">Departamento</label>
+            <input type="text" class="form-control" name="departamento" id="field_departamento"
+                [(ngModel)]="cabina.departamento" required />
+            <div [hidden]="!(editForm.controls.departamento?.dirty && editForm.controls.departamento?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.departamento?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.municipio" for="field_municipio">Municipio</label>
+            <input type="text" class="form-control" name="municipio" id="field_municipio"
+                [(ngModel)]="cabina.municipio" required />
+            <div [hidden]="!(editForm.controls.municipio?.dirty && editForm.controls.municipio?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.municipio?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.cupo" for="field_cupo">Cupo</label>
+            <input type="number" class="form-control" name="cupo" id="field_cupo"
+                [(ngModel)]="cabina.cupo" required />
+            <div [hidden]="!(editForm.controls.cupo?.dirty && editForm.controls.cupo?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.cupo?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.cupo?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.consegutivo" for="field_consegutivo">Consegutivo</label>
+            <input type="number" class="form-control" name="consegutivo" id="field_consegutivo"
+                [(ngModel)]="cabina.consegutivo" required />
+            <div [hidden]="!(editForm.controls.consegutivo?.dirty && editForm.controls.consegutivo?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.consegutivo?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.consegutivo?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.longitud" for="field_longitud">Longitud</label>
+            <input type="number" class="form-control" name="longitud" id="field_longitud"
+                [(ngModel)]="cabina.longitud"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.latitud" for="field_latitud">Latitud</label>
+            <input type="number" class="form-control" name="latitud" id="field_latitud"
+                [(ngModel)]="cabina.latitud"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.estado" for="field_estado">Estado</label>
+            <select class="form-control" name="estado" [(ngModel)]="cabina.estado" id="field_estado"  required>
+                <option value="ACTIVO" jhiTranslate="backendCabinasApp.EstadoCabina.ACTIVO">ACTIVO</option>
+                <option value="INACTIVO" jhiTranslate="backendCabinasApp.EstadoCabina.INACTIVO">INACTIVO</option>
+                <option value="BLOQUEADA" jhiTranslate="backendCabinasApp.EstadoCabina.BLOQUEADA">BLOQUEADA</option>
+            </select>
+            <div [hidden]="!(editForm.controls.estado?.dirty && editForm.controls.estado?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.estado?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="backendCabinasApp.cabina.observaciones" for="field_observaciones">Observaciones</label>
+            <input type="text" class="form-control" name="observaciones" id="field_observaciones"
+                [(ngModel)]="cabina.observaciones"  />
+        </div>
+
+        <div class="form-group">
+            <label jhiTranslate="backendCabinasApp.cabina.user" for="field_user">User</label>
+            <select class="form-control" id="field_user" name="user" [(ngModel)]="cabina.userId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>
