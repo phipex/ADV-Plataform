@@ -2,6 +2,7 @@ package co.com.ies.adv.backend.cabinas.service.impl;
 
 import co.com.ies.adv.backend.cabinas.service.CabinaService;
 import co.com.ies.adv.backend.cabinas.domain.Cabina;
+import co.com.ies.adv.backend.cabinas.domain.core.UseCases.CabinaDomainService;
 import co.com.ies.adv.backend.cabinas.repository.CabinaRepository;
 import co.com.ies.adv.backend.cabinas.service.dto.CabinaDTO;
 import co.com.ies.adv.backend.cabinas.service.mapper.CabinaMapper;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class CabinaServiceImpl implements CabinaService{
+public class CabinaServiceImpl extends CabinaDomainService implements CabinaService{
 
     private final Logger log = LoggerFactory.getLogger(CabinaServiceImpl.class);
 
@@ -29,6 +30,7 @@ public class CabinaServiceImpl implements CabinaService{
     public CabinaServiceImpl(CabinaRepository cabinaRepository, CabinaMapper cabinaMapper) {
         this.cabinaRepository = cabinaRepository;
         this.cabinaMapper = cabinaMapper;
+        setICabinaRepository(cabinaRepository);
     }
 
     /**

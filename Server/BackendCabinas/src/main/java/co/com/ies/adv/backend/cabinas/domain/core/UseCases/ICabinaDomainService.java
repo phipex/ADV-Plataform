@@ -7,6 +7,6 @@ public interface ICabinaDomainService {
 
 	void setICabinaRepository(ICabinaRepository cabinaRepository);
 
-	boolean validaCanbina(Long userId) throws CabinaException;
+	boolean validaCabina(Long userId) throws CabinaException;
 
 }

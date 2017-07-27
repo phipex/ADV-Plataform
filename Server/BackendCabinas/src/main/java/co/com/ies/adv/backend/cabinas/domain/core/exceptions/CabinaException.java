@@ -13,12 +13,8 @@ public class CabinaException extends Exception  {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@SuppressWarnings("unused")
-	private final String message;
-
 	public CabinaException(String message) {
-		this.message = message;
+		super(message);
 	}
-	
 	
 }

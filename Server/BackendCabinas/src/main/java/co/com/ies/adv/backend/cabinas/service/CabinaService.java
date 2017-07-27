@@ -1,5 +1,6 @@
 package co.com.ies.adv.backend.cabinas.service;
 
+import co.com.ies.adv.backend.cabinas.domain.core.UseCases.ICabinaDomainService;
 import co.com.ies.adv.backend.cabinas.service.dto.CabinaDTO;
 
 import org.springframework.data.domain.Page;
@@ -8,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 /**
  * Service Interface for managing Cabina.
  */
-public interface CabinaService {
+public interface CabinaService extends ICabinaDomainService {
 
     /**
      * Save a cabina.

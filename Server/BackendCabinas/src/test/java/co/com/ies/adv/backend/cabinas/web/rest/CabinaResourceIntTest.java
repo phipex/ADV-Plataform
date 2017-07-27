@@ -32,7 +32,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import co.com.ies.adv.backend.cabinas.domain.enumeration.EstadoCabina;
+import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 /**
  * Test class for the CabinaResource REST controller.
  *

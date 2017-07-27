@@ -2,9 +2,11 @@ package co.com.ies.adv.backend.cabinas.web.rest;
 
 import co.com.ies.adv.backend.cabinas.domain.Authority;
 import co.com.ies.adv.backend.cabinas.domain.User;
+import co.com.ies.adv.backend.cabinas.domain.core.exceptions.CabinaException;
 import co.com.ies.adv.backend.cabinas.security.AuthoritiesConstants;
 import co.com.ies.adv.backend.cabinas.security.jwt.JWTConfigurer;
 import co.com.ies.adv.backend.cabinas.security.jwt.TokenProvider;
+import co.com.ies.adv.backend.cabinas.service.CabinaService;
 import co.com.ies.adv.backend.cabinas.service.UserService;
 import co.com.ies.adv.backend.cabinas.web.rest.vm.LoginVM;
 
@@ -42,11 +44,14 @@ public class UserJWTController {
     private final AuthenticationManager authenticationManager;
     
     private final UserService userService;
+    
+    private final CabinaService cabinaService;
 
-    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager, UserService userService) {
+    public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager, UserService userService, CabinaService cabinaService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
+        this.cabinaService = cabinaService;
     }
 
     @PostMapping("/authenticate")
@@ -65,14 +70,14 @@ public class UserJWTController {
             String jwt = tokenProvider.createToken(authentication, rememberMe);
             response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
             return ResponseEntity.ok(new JWTToken(jwt));
-        } catch (AuthenticationException ae) {
+        } catch (AuthenticationException | CabinaException ae) {
             log.trace("Authentication exception trace: {}", ae);
             return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",
                 ae.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
         }
     }
 
-    public void verificarCabina(String login){
+    private void verificarCabina(String login) throws CabinaException{
     	
     	Optional<User> userWithAuthorities = userService.getUserWithAuthoritiesByLogin(login);
     	
@@ -96,7 +101,20 @@ public class UserJWTController {
     	
     	boolean containsCabina = authorities.contains(authorityCabina);
     	
+    	if(!containsCabina){
+    		return;
+    	}
+    	
     	log.debug("!!!!!!!es cabina"+containsCabina);
+    	
+    	Long userId = user.getId();
+    	
+    	
+		boolean cabinaValida = cabinaService.validaCabina(userId);
+			
+		log.debug("!!!!!!!es cabina valida "+cabinaValida);
+			
+		
     	
     }
     

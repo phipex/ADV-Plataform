@@ -23,10 +23,12 @@ public class CabinaDomainService implements ICabinaDomainService {
 	 * @see co.com.ies.adv.backend.cabinas.domain.core.UseCases.ICabinaDomainService#validaCanbina(java.lang.Long)
 	 */
 	@Override
-	public boolean validaCanbina(Long userId) throws CabinaException{
+	public boolean validaCabina(Long userId) throws CabinaException{
 		
 		
 		ICabina cabina = cabinaRepository.findOneByUserId(userId);
+		
+		System.out.println(cabina);
 		
 		if(cabina == null){
 			throw new CabinaException("No hay cabina asociada al usuario");
@@ -36,7 +38,10 @@ public class CabinaDomainService implements ICabinaDomainService {
 		EstadoCabina estado = cabina.getEstado();
 		
 		boolean noEsInactivo = !EstadoCabina.INACTIVO.equals(estado);
-		boolean hayCupo = BigDecimal.ZERO.compareTo(cupo) > 0;
+		boolean hayCupo = BigDecimal.ZERO.compareTo(cupo) < 0;
+		
+		System.out.println("cupo:"+cupo+",compareto"+BigDecimal.ZERO.compareTo(cupo));
+		
 		
 		if (!noEsInactivo) {
 			throw new CabinaException("Cabina se encuentra inactiva");

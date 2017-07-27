@@ -9,7 +9,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
-import co.com.ies.adv.backend.cabinas.domain.enumeration.EstadoCabina;
+import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
+import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 
 /**
  * A Cabina.
@@ -17,7 +18,7 @@ import co.com.ies.adv.backend.cabinas.domain.enumeration.EstadoCabina;
 @Entity
 @Table(name = "cabina")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Cabina implements Serializable {
+public class Cabina implements Serializable,ICabina {
 
     private static final long serialVersionUID = 1L;
 

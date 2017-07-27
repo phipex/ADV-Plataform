@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
-import co.com.ies.adv.backend.cabinas.domain.enumeration.EstadoCabina;
+import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 
 /**
  * A DTO for the Cabina entity.
