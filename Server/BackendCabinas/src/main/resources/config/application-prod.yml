@@ -88,9 +88,9 @@ jhipster:
         authentication:
             jwt:
                 secret: 6d6cb2fff0226be5b1cae6aeecefcb27cd331fd6
-                # Token is valid 24 hours
-                token-validity-in-seconds: 86400
-                token-validity-in-seconds-for-remember-me: 2592000
+                # Token is valid 3 hours
+                token-validity-in-seconds: 10800 #86400
+                token-validity-in-seconds-for-remember-me: 10800 #2592000
     mail: # specific JHipster mail property, for standard properties see MailProperties
         from: BackendCabinas@localhost
         base-url: http://my-server-url-to-change # Modify according to your server's URL
