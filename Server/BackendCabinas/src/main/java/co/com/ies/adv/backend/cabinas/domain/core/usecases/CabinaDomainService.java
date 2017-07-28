@@ -12,11 +12,13 @@ import co.com.ies.adv.backend.cabinas.domain.core.repositorys.ICabinaRepository;
  * @author Andres Felipe Montoya
  *
  */
-public class CabinaDomainService implements ICabinaDomainService {
+public abstract class CabinaDomainService implements ICabinaDomainService {
 
+	public static final String ERROR_AL_INGRESAR_LA_CABINA_AL_SISTEMA = "Error al ingresar la cabina al sistema";
 	public static final String LA_CABINA_NO_TIENE_CUPO = "La cabina no tiene cupo";
 	public static final String CABINA_SE_ENCUENTRA_INACTIVA = "Cabina se encuentra inactiva";
 	public static final String NO_HAY_CABINA_ASOCIADA_AL_USUARIO = "No hay cabina asociada al usuario";
+	
 	private ICabinaRepository cabinaRepository;
 
 	/* (non-Javadoc)
@@ -31,12 +33,10 @@ public class CabinaDomainService implements ICabinaDomainService {
 	 * @see co.com.ies.adv.backend.cabinas.domain.core.UseCases.ICabinaDomainService#validaCanbina(java.lang.Long)
 	 */
 	@Override
-	public boolean validaCabina(Long userId) throws CabinaException{
+	public ICabina validaCabina(Long userId) throws CabinaException{
 		
 		
 		ICabina cabina = cabinaRepository.findOneByUserId(userId);
-		
-		//System.out.println(cabina);
 		
 		if(cabina == null){
 			throw new CabinaException(NO_HAY_CABINA_ASOCIADA_AL_USUARIO);
@@ -54,14 +54,39 @@ public class CabinaDomainService implements ICabinaDomainService {
 		
 		boolean hayCupo = cupo != null && BigDecimal.ZERO.compareTo(cupo) < 0;
 		
-		//System.out.println("cupo:"+cupo+",compareto"+BigDecimal.ZERO.compareTo(cupo));
-		
 		if (!hayCupo) {
 			throw new CabinaException(LA_CABINA_NO_TIENE_CUPO);
 		}
 		
 				
-		return true;
+		return cabina;
 	}
+	
+	public abstract Long getUserCabinaId(String login);
+	
+	public void loginCabina(String login) throws CabinaException{
+		
+		try {
+			Long userId = getUserCabinaId(login);
+			
+			if(userId == null){
+				return;//no hay una cabina asociada al usuario
+			}
+			
+			ICabina cabinaValida = validaCabina(userId);
+			
+			if (cabinaValida != null && EstadoCabina.BLOQUEADA.equals(cabinaValida.getEstado())  ) {
+				cabinaValida.setEstado(EstadoCabina.ACTIVO);
+				cabinaRepository.save(cabinaValida);
+			}
+		} catch (CabinaException e) {
+			throw new CabinaException(e.getMessage());
+		} catch (Exception e) {
+			throw new CabinaException(ERROR_AL_INGRESAR_LA_CABINA_AL_SISTEMA);
+		}
+		
+		
+	}
+	
 	
 }

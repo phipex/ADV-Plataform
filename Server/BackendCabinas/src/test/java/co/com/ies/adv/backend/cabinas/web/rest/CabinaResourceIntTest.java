@@ -32,6 +32,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
 import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 /**
  * Test class for the CabinaResource REST controller.
@@ -152,7 +153,7 @@ public class CabinaResourceIntTest {
         // Validate the Cabina in the database
         List<Cabina> cabinaList = cabinaRepository.findAll();
         assertThat(cabinaList).hasSize(databaseSizeBeforeCreate + 1);
-        Cabina testCabina = cabinaList.get(cabinaList.size() - 1);
+        ICabina testCabina = cabinaList.get(cabinaList.size() - 1);
         assertThat(testCabina.getIdem()).isEqualTo(DEFAULT_IDEM);
         assertThat(testCabina.getResponsable()).isEqualTo(DEFAULT_RESPONSABLE);
         assertThat(testCabina.getDireccion()).isEqualTo(DEFAULT_DIRECCION);
@@ -425,7 +426,7 @@ public class CabinaResourceIntTest {
         // Validate the Cabina in the database
         List<Cabina> cabinaList = cabinaRepository.findAll();
         assertThat(cabinaList).hasSize(databaseSizeBeforeUpdate);
-        Cabina testCabina = cabinaList.get(cabinaList.size() - 1);
+        ICabina testCabina = cabinaList.get(cabinaList.size() - 1);
         assertThat(testCabina.getIdem()).isEqualTo(UPDATED_IDEM);
         assertThat(testCabina.getResponsable()).isEqualTo(UPDATED_RESPONSABLE);
         assertThat(testCabina.getDireccion()).isEqualTo(UPDATED_DIRECCION);
