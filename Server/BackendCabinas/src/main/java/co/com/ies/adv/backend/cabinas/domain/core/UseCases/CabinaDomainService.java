@@ -7,8 +7,16 @@ import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 import co.com.ies.adv.backend.cabinas.domain.core.exceptions.CabinaException;
 import co.com.ies.adv.backend.cabinas.domain.core.repositorys.ICabinaRepository;
 
+/**
+ * Logica de las cabinas
+ * @author Andres Felipe Montoya
+ *
+ */
 public class CabinaDomainService implements ICabinaDomainService {
 
+	public static final String LA_CABINA_NO_TIENE_CUPO = "La cabina no tiene cupo";
+	public static final String CABINA_SE_ENCUENTRA_INACTIVA = "Cabina se encuentra inactiva";
+	public static final String NO_HAY_CABINA_ASOCIADA_AL_USUARIO = "No hay cabina asociada al usuario";
 	private ICabinaRepository cabinaRepository;
 
 	/* (non-Javadoc)
@@ -28,27 +36,28 @@ public class CabinaDomainService implements ICabinaDomainService {
 		
 		ICabina cabina = cabinaRepository.findOneByUserId(userId);
 		
-		System.out.println(cabina);
+		//System.out.println(cabina);
 		
 		if(cabina == null){
-			throw new CabinaException("No hay cabina asociada al usuario");
+			throw new CabinaException(NO_HAY_CABINA_ASOCIADA_AL_USUARIO);
 		}
 		
-		BigDecimal cupo = cabina.getCupo();
 		EstadoCabina estado = cabina.getEstado();
 		
 		boolean noEsInactivo = !EstadoCabina.INACTIVO.equals(estado);
-		boolean hayCupo = BigDecimal.ZERO.compareTo(cupo) < 0;
-		
-		System.out.println("cupo:"+cupo+",compareto"+BigDecimal.ZERO.compareTo(cupo));
-		
 		
 		if (!noEsInactivo) {
-			throw new CabinaException("Cabina se encuentra inactiva");
+			throw new CabinaException(CABINA_SE_ENCUENTRA_INACTIVA);
 		}
 		
+		BigDecimal cupo = cabina.getCupo();
+		
+		boolean hayCupo = cupo != null && BigDecimal.ZERO.compareTo(cupo) < 0;
+		
+		//System.out.println("cupo:"+cupo+",compareto"+BigDecimal.ZERO.compareTo(cupo));
+		
 		if (!hayCupo) {
-			throw new CabinaException("La cabina no tiene cupo");
+			throw new CabinaException(LA_CABINA_NO_TIENE_CUPO);
 		}
 		
 				
