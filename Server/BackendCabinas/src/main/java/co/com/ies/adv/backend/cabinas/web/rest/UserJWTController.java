@@ -1,7 +1,10 @@
 package co.com.ies.adv.backend.cabinas.web.rest;
 
 import co.com.ies.adv.backend.cabinas.domain.Authority;
+import co.com.ies.adv.backend.cabinas.domain.Cabina;
 import co.com.ies.adv.backend.cabinas.domain.User;
+import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
+import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 import co.com.ies.adv.backend.cabinas.domain.core.exceptions.CabinaException;
 import co.com.ies.adv.backend.cabinas.security.AuthoritiesConstants;
 import co.com.ies.adv.backend.cabinas.security.jwt.JWTConfigurer;
@@ -62,7 +65,8 @@ public class UserJWTController {
             new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
 
         try {
-        	verificarCabina(loginVM.getUsername());
+        	
+        	cabinaService.loginCabina(loginVM.getUsername());
         	
         	Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -75,36 +79,6 @@ public class UserJWTController {
             return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",
                 ae.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
         }
-    }
-
-    private boolean verificarCabina(String login) throws CabinaException{
-    	
-    	Optional<User> userWithAuthorities = userService.getUserWithAuthoritiesByLogin(login);
-    	 
-    	boolean isUserpresent = userWithAuthorities.isPresent();
-		
-    	if (!isUserpresent) {
-    		return false;
-		}
-    	
-    	User user = userWithAuthorities.get();
-		
-    	Set<Authority> authorities = user.getAuthorities();
-    	
-    	Authority authorityCabina = new Authority();
-    	
-    	authorityCabina.setName(AuthoritiesConstants.CABINA);
-    	
-    	boolean containsCabina = authorities.contains(authorityCabina);
-    	
-    	if(!containsCabina){
-    		return false;
-    	}
-    	
-    	Long userId = user.getId();
-    	
-		return cabinaService.validaCabina(userId);
-		
     }
     
     /**

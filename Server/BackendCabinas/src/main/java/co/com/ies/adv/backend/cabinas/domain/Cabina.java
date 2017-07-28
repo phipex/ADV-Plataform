@@ -73,15 +73,27 @@ public class Cabina implements Serializable,ICabina {
     @JoinColumn(unique = true)
     private User user;
 
-    public Long getId() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getId()
+	 */
+    @Override
+	public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setId(java.lang.Long)
+	 */
+    @Override
+	public void setId(Long id) {
         this.id = id;
     }
 
-    public String getIdem() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getIdem()
+	 */
+    @Override
+	public String getIdem() {
         return idem;
     }
 
@@ -90,11 +102,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setIdem(String idem) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setIdem(java.lang.String)
+	 */
+    @Override
+	public void setIdem(String idem) {
         this.idem = idem;
     }
 
-    public String getResponsable() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getResponsable()
+	 */
+    @Override
+	public String getResponsable() {
         return responsable;
     }
 
@@ -103,11 +123,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setResponsable(String responsable) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setResponsable(java.lang.String)
+	 */
+    @Override
+	public void setResponsable(String responsable) {
         this.responsable = responsable;
     }
 
-    public String getDireccion() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getDireccion()
+	 */
+    @Override
+	public String getDireccion() {
         return direccion;
     }
 
@@ -116,11 +144,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setDireccion(String direccion) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setDireccion(java.lang.String)
+	 */
+    @Override
+	public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
-    public String getDepartamento() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getDepartamento()
+	 */
+    @Override
+	public String getDepartamento() {
         return departamento;
     }
 
@@ -129,11 +165,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setDepartamento(String departamento) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setDepartamento(java.lang.String)
+	 */
+    @Override
+	public void setDepartamento(String departamento) {
         this.departamento = departamento;
     }
 
-    public String getMunicipio() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getMunicipio()
+	 */
+    @Override
+	public String getMunicipio() {
         return municipio;
     }
 
@@ -142,11 +186,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setMunicipio(String municipio) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setMunicipio(java.lang.String)
+	 */
+    @Override
+	public void setMunicipio(String municipio) {
         this.municipio = municipio;
     }
 
-    public BigDecimal getCupo() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getCupo()
+	 */
+    @Override
+	public BigDecimal getCupo() {
         return cupo;
     }
 
@@ -155,11 +207,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setCupo(BigDecimal cupo) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setCupo(java.math.BigDecimal)
+	 */
+    @Override
+	public void setCupo(BigDecimal cupo) {
         this.cupo = cupo;
     }
 
-    public Long getConsegutivo() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getConsegutivo()
+	 */
+    @Override
+	public Long getConsegutivo() {
         return consegutivo;
     }
 
@@ -168,11 +228,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setConsegutivo(Long consegutivo) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setConsegutivo(java.lang.Long)
+	 */
+    @Override
+	public void setConsegutivo(Long consegutivo) {
         this.consegutivo = consegutivo;
     }
 
-    public Double getLongitud() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getLongitud()
+	 */
+    @Override
+	public Double getLongitud() {
         return longitud;
     }
 
@@ -181,11 +249,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setLongitud(Double longitud) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setLongitud(java.lang.Double)
+	 */
+    @Override
+	public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 
-    public Double getLatitud() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getLatitud()
+	 */
+    @Override
+	public Double getLatitud() {
         return latitud;
     }
 
@@ -194,11 +270,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setLatitud(Double latitud) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setLatitud(java.lang.Double)
+	 */
+    @Override
+	public void setLatitud(Double latitud) {
         this.latitud = latitud;
     }
 
-    public EstadoCabina getEstado() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getEstado()
+	 */
+    @Override
+	public EstadoCabina getEstado() {
         return estado;
     }
 
@@ -207,11 +291,19 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setEstado(EstadoCabina estado) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setEstado(co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina)
+	 */
+    @Override
+	public void setEstado(EstadoCabina estado) {
         this.estado = estado;
     }
 
-    public String getObservaciones() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getObservaciones()
+	 */
+    @Override
+	public String getObservaciones() {
         return observaciones;
     }
 
@@ -220,20 +312,32 @@ public class Cabina implements Serializable,ICabina {
         return this;
     }
 
-    public void setObservaciones(String observaciones) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setObservaciones(java.lang.String)
+	 */
+    @Override
+	public void setObservaciones(String observaciones) {
         this.observaciones = observaciones;
     }
 
-    public User getUser() {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#getUser()
+	 */
+    @Override
+	public User getUser() {
         return user;
     }
 
-    public Cabina user(User user) {
+    public ICabina user(User user) {
         this.user = user;
         return this;
     }
 
-    public void setUser(User user) {
+    /* (non-Javadoc)
+	 * @see co.com.ies.adv.backend.cabinas.domain.ICabina#setUser(co.com.ies.adv.backend.cabinas.domain.User)
+	 */
+    @Override
+	public void setUser(User user) {
         this.user = user;
     }
 
@@ -245,7 +349,7 @@ public class Cabina implements Serializable,ICabina {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Cabina cabina = (Cabina) o;
+        ICabina cabina = (ICabina) o;
         if (cabina.getId() == null || getId() == null) {
             return false;
         }

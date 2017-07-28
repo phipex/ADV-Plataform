@@ -1,6 +1,7 @@
 package co.com.ies.adv.backend.cabinas.service.mapper;
 
 import co.com.ies.adv.backend.cabinas.domain.*;
+import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
 import co.com.ies.adv.backend.cabinas.service.dto.CabinaDTO;
 
 import org.mapstruct.*;
@@ -12,7 +13,7 @@ import org.mapstruct.*;
 public interface CabinaMapper extends EntityMapper <CabinaDTO, Cabina> {
 
     @Mapping(source = "user.id", target = "userId")
-    CabinaDTO toDto(Cabina cabina); 
+    CabinaDTO toDto(ICabina cabina); 
 
     @Mapping(source = "userId", target = "user")
     Cabina toEntity(CabinaDTO cabinaDTO); 

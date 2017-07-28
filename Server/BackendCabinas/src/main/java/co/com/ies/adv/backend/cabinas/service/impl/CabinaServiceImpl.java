@@ -1,11 +1,20 @@
 package co.com.ies.adv.backend.cabinas.service.impl;
 
 import co.com.ies.adv.backend.cabinas.service.CabinaService;
+import co.com.ies.adv.backend.cabinas.service.UserService;
+import co.com.ies.adv.backend.cabinas.domain.Authority;
 import co.com.ies.adv.backend.cabinas.domain.Cabina;
+import co.com.ies.adv.backend.cabinas.domain.User;
+import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
 import co.com.ies.adv.backend.cabinas.domain.core.usecases.CabinaDomainService;
 import co.com.ies.adv.backend.cabinas.repository.CabinaRepository;
+import co.com.ies.adv.backend.cabinas.security.AuthoritiesConstants;
 import co.com.ies.adv.backend.cabinas.service.dto.CabinaDTO;
 import co.com.ies.adv.backend.cabinas.service.mapper.CabinaMapper;
+
+import java.util.Optional;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -26,10 +35,13 @@ public class CabinaServiceImpl extends CabinaDomainService implements CabinaServ
     private final CabinaRepository cabinaRepository;
 
     private final CabinaMapper cabinaMapper;
+    
+    private final UserService userService;
 
-    public CabinaServiceImpl(CabinaRepository cabinaRepository, CabinaMapper cabinaMapper) {
+    public CabinaServiceImpl(CabinaRepository cabinaRepository, CabinaMapper cabinaMapper, UserService userService) {
         this.cabinaRepository = cabinaRepository;
         this.cabinaMapper = cabinaMapper;
+        this.userService = userService;
         setICabinaRepository(cabinaRepository);
     }
 
@@ -71,7 +83,7 @@ public class CabinaServiceImpl extends CabinaDomainService implements CabinaServ
     @Transactional(readOnly = true)
     public CabinaDTO findOne(Long id) {
         log.debug("Request to get Cabina : {}", id);
-        Cabina cabina = cabinaRepository.findOne(id);
+        ICabina cabina = cabinaRepository.findOne(id);
         return cabinaMapper.toDto(cabina);
     }
 
@@ -85,4 +97,31 @@ public class CabinaServiceImpl extends CabinaDomainService implements CabinaServ
         log.debug("Request to delete Cabina : {}", id);
         cabinaRepository.delete(id);
     }
+
+	@Override
+	public Long getUserCabinaId(String login) {
+		Optional<User> userWithAuthorities = userService.getUserWithAuthoritiesByLogin(login);
+   	 
+    	boolean isUserpresent = userWithAuthorities.isPresent();
+		
+    	if (!isUserpresent) {
+    		return null;
+		}
+    	
+    	User user = userWithAuthorities.get();
+		
+    	Set<Authority> authorities = user.getAuthorities();
+    	
+    	Authority authorityCabina = new Authority();
+    	
+    	authorityCabina.setName(AuthoritiesConstants.CABINA);
+    	
+    	boolean containsCabina = authorities.contains(authorityCabina);
+    	
+    	if(!containsCabina){
+    		return null;
+    	}
+    	
+    	return user.getId();
+	}
 }

@@ -6,4 +6,6 @@ public interface ICabinaRepository {
 
 	ICabina findOneByUserId(Long userId);
 	
+	ICabina save(ICabina cabina);
+	
 }
