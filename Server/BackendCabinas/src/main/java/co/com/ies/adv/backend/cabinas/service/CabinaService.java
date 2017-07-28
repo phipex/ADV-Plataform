@@ -1,6 +1,6 @@
 package co.com.ies.adv.backend.cabinas.service;
 
-import co.com.ies.adv.backend.cabinas.domain.core.UseCases.ICabinaDomainService;
+import co.com.ies.adv.backend.cabinas.domain.core.usecases.ICabinaDomainService;
 import co.com.ies.adv.backend.cabinas.service.dto.CabinaDTO;
 
 import org.springframework.data.domain.Page;

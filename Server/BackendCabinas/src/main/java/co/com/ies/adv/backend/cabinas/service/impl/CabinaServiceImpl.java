@@ -2,7 +2,7 @@ package co.com.ies.adv.backend.cabinas.service.impl;
 
 import co.com.ies.adv.backend.cabinas.service.CabinaService;
 import co.com.ies.adv.backend.cabinas.domain.Cabina;
-import co.com.ies.adv.backend.cabinas.domain.core.UseCases.CabinaDomainService;
+import co.com.ies.adv.backend.cabinas.domain.core.usecases.CabinaDomainService;
 import co.com.ies.adv.backend.cabinas.repository.CabinaRepository;
 import co.com.ies.adv.backend.cabinas.service.dto.CabinaDTO;
 import co.com.ies.adv.backend.cabinas.service.mapper.CabinaMapper;

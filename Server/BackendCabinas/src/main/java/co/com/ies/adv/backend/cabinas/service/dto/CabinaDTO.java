@@ -4,8 +4,6 @@ package co.com.ies.adv.backend.cabinas.service.dto;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Objects;
 import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 
@@ -14,7 +12,12 @@ import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
  */
 public class CabinaDTO implements Serializable {
 
-    private Long id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 
     @NotNull
     private String idem;

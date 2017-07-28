@@ -77,23 +77,19 @@ public class UserJWTController {
         }
     }
 
-    private void verificarCabina(String login) throws CabinaException{
+    private boolean verificarCabina(String login) throws CabinaException{
     	
     	Optional<User> userWithAuthorities = userService.getUserWithAuthoritiesByLogin(login);
-    	
-    	log.debug(userWithAuthorities.toString());
-    	
+    	 
     	boolean isUserpresent = userWithAuthorities.isPresent();
 		
     	if (!isUserpresent) {
-    		return;
+    		return false;
 		}
     	
     	User user = userWithAuthorities.get();
 		
     	Set<Authority> authorities = user.getAuthorities();
-    	
-    	log.debug(authorities.toString());
     	
     	Authority authorityCabina = new Authority();
     	
@@ -102,20 +98,13 @@ public class UserJWTController {
     	boolean containsCabina = authorities.contains(authorityCabina);
     	
     	if(!containsCabina){
-    		return;
+    		return false;
     	}
-    	
-    	log.debug("!!!!!!!es cabina"+containsCabina);
     	
     	Long userId = user.getId();
     	
-    	
-		boolean cabinaValida = cabinaService.validaCabina(userId);
-			
-		log.debug("!!!!!!!es cabina valida "+cabinaValida);
-			
+		return cabinaService.validaCabina(userId);
 		
-    	
     }
     
     /**

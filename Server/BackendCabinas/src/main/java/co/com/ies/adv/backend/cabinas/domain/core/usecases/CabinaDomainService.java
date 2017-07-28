@@ -1,4 +1,4 @@
-package co.com.ies.adv.backend.cabinas.domain.core.UseCases;
+package co.com.ies.adv.backend.cabinas.domain.core.usecases;
 
 import java.math.BigDecimal;
 

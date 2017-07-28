@@ -12,6 +12,7 @@ import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
 import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 import co.com.ies.adv.backend.cabinas.domain.core.exceptions.CabinaException;
 import co.com.ies.adv.backend.cabinas.domain.core.repositorys.ICabinaRepository;
+import co.com.ies.adv.backend.cabinas.domain.core.usecases.CabinaDomainService;
 
 public class CabinaDomainServiceTest {
 
