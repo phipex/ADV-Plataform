@@ -3,6 +3,8 @@ package com.ies.raspb_cab;
 import com.ies.raspb_cab.config.ApplicationProperties;
 import com.ies.raspb_cab.config.DefaultProfileUtil;
 
+import com.ies.raspb_cab.service.BillControlService;
+import com.ies.raspb_cab.service.BillHandler;
 import io.github.jhipster.config.JHipsterConstants;
 
 import org.slf4j.Logger;
@@ -12,10 +14,13 @@ import org.springframework.boot.actuate.autoconfigure.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
+import org.springframework.web.socket.client.WebSocketConnectionManager;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -80,5 +85,21 @@ public class RaspbCabApp {
             InetAddress.getLocalHost().getHostAddress(),
             env.getProperty("server.port"),
             env.getActiveProfiles());
+
+        /*
+        //Control Billetero
+        BillControlService billControlService = new BillControlService();
+        WebSocketConnectionManager manager = billControlService.connectionManager();
+        manager.start();
+        log.info(String.valueOf(billControlService));
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        billControlService.billHandler.sendMsg("on");
+        */
+
     }
 }

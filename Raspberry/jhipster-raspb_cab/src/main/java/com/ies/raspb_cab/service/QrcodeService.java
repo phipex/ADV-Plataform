@@ -24,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.concurrent.ListenableFuture;
 
@@ -31,9 +32,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 @Service
+@Transactional
 public class QrcodeService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QrcodeService.class);
+    private static final Logger log = LoggerFactory.getLogger(QrcodeService.class);
 
     public byte[] generateQRCode(String text, int width, int height) throws IOException {
 
@@ -41,15 +43,15 @@ public class QrcodeService {
         Assert.isTrue(width > 0);
         Assert.isTrue(height > 0);
 
-        LOGGER.info("Will generate image  text=[{}], width=[{}], height=[{}]", text, width, height);
+        log.info("Will generate image  text=[{}], width=[{}], height=[{}]", text, width, height);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        BitMatrix matrix = null;
+        BitMatrix matrix;
 
         try {
             matrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height);
         } catch (WriterException e) {
-            LOGGER.error("",e);
+            log.error("WriterException - Problems with the matrix.", e);
             matrix = null;
         }
 
