@@ -1,0 +1,32 @@
+{
+    "backendCabinasApp": {
+        "cabina" : {
+            "home": {
+                "title": "Cabinas",
+                "createLabel": "Crear nuevo Cabina",
+                "createOrEditLabel": "Crear o editar Cabina"
+            },
+            "created": "Un nuevo Cabina ha sido creado con el identificador {{ param }}",
+            "updated": "Un Cabina ha sido actualizado con el identificador {{ param }}",
+            "deleted": "Un Cabina ha sido eliminado con el identificador {{ param }}",
+            "delete": {
+                "question": "¿Seguro que quiere eliminar Cabina {{ id }}?"
+            },
+            "detail": {
+                "title": "Cabina"
+            },
+            "idem": "Idem",
+            "responsable": "Responsable",
+            "direccion": "Direccion",
+            "departamento": "Departamento",
+            "municipio": "Municipio",
+            "cupo": "Cupo",
+            "consegutivo": "Consegutivo",
+            "longitud": "Longitud",
+            "latitud": "Latitud",
+            "estado": "Estado",
+            "observaciones": "Observaciones",
+            "user": "User"
+        }
+    }
+}

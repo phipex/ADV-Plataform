@@ -1,0 +1,88 @@
+<div>
+    <h2>
+        <span jhiTranslate="backendCabinasApp.cabina.home.title">Cabinas</span>
+        <button class="btn btn-primary float-right jh-create-entity create-cabina" [routerLink]="['/', { outlets: { popup: ['cabina-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="backendCabinasApp.cabina.home.createLabel">
+            Create new Cabina
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="cabinas">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="idem"><span jhiTranslate="backendCabinasApp.cabina.idem">Idem</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="responsable"><span jhiTranslate="backendCabinasApp.cabina.responsable">Responsable</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="direccion"><span jhiTranslate="backendCabinasApp.cabina.direccion">Direccion</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="departamento"><span jhiTranslate="backendCabinasApp.cabina.departamento">Departamento</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="municipio"><span jhiTranslate="backendCabinasApp.cabina.municipio">Municipio</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="cupo"><span jhiTranslate="backendCabinasApp.cabina.cupo">Cupo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="consegutivo"><span jhiTranslate="backendCabinasApp.cabina.consegutivo">Consegutivo</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="longitud"><span jhiTranslate="backendCabinasApp.cabina.longitud">Longitud</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="latitud"><span jhiTranslate="backendCabinasApp.cabina.latitud">Latitud</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="estado"><span jhiTranslate="backendCabinasApp.cabina.estado">Estado</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="observaciones"><span jhiTranslate="backendCabinasApp.cabina.observaciones">Observaciones</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="userId"><span jhiTranslate="backendCabinasApp.cabina.user">User</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let cabina of cabinas ;trackBy: trackId">
+                <td><a [routerLink]="['../cabina', cabina.id ]">{{cabina.id}}</a></td>
+                <td>{{cabina.idem}}</td>
+                <td>{{cabina.responsable}}</td>
+                <td>{{cabina.direccion}}</td>
+                <td>{{cabina.departamento}}</td>
+                <td>{{cabina.municipio}}</td>
+                <td>{{cabina.cupo}}</td>
+                <td>{{cabina.consegutivo}}</td>
+                <td>{{cabina.longitud}}</td>
+                <td>{{cabina.latitud}}</td>
+                <td jhiTranslate="{{'backendCabinasApp.EstadoCabina.' + cabina.estado}}">{{cabina.estado}}</td>
+                <td>{{cabina.observaciones}}</td>
+                <td>
+                    {{cabina.userId}}
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../cabina', cabina.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'cabina/'+ cabina.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'cabina/'+ cabina.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="hidden-md-down" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <div *ngIf="cabinas && cabinas.length">
+            <div class="row justify-content-center">
+                <jhi-item-count [page]="page" [total]="queryCount" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+            </div>
+            <div class="row justify-content-center">
+                <ngb-pagination [collectionSize]="totalItems" [(page)]="page" (pageChange)="loadPage(page)"></ngb-pagination>
+            </div>
+        </div>
+</div>
