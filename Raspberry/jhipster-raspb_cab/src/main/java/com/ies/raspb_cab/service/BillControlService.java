@@ -1,7 +1,6 @@
 package com.ies.raspb_cab.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.ies.raspb_cab.config.Handler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
@@ -11,13 +10,18 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 @Transactional
 public class BillControlService {
 
-    private final Logger log = LoggerFactory.getLogger(BillControlService.class);
-
     private String url = "ws://localhost:9876";
 
-    public BillHandler billHandler;
+    public Handler handler;
 
-    public WebSocketConnectionManager connectionManager() {
+    public void startConnection(){
+
+        WebSocketConnectionManager connectionManager = connectionManager();
+        connectionManager.start();
+
+    }
+
+    private WebSocketConnectionManager connectionManager() {
 
         WebSocketConnectionManager manager = new WebSocketConnectionManager(client(), handler(), url);
         manager.setAutoStartup(true);
@@ -25,17 +29,27 @@ public class BillControlService {
         return manager;
     }
 
-    public StandardWebSocketClient client() {
+    private StandardWebSocketClient client() {
 
         return new StandardWebSocketClient();
     }
 
-    public BillHandler handler(){
+    private Handler handler(){
 
-        if(this.billHandler == null){
-            this.billHandler = new BillHandler();
+        if(this.handler == null){
+            this.handler = new Handler();
         }
-        return this.billHandler;
+        return this.handler;
+    }
+
+    public void enableBill(){
+
+        this.handler.sendMsg("on");
+    }
+
+    public void disableBill(){
+
+        this.handler.sendMsg("off");
     }
 
 }

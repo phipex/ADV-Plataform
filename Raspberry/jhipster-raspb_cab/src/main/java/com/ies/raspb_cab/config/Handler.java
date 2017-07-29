@@ -1,4 +1,4 @@
-package com.ies.raspb_cab.service;
+package com.ies.raspb_cab.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +11,9 @@ import java.io.IOException;
 /**
  * Created by betancur343 on 28/07/17.
  */
-public class BillHandler extends TextWebSocketHandler {
+public class Handler extends TextWebSocketHandler {
 
-    private final Logger log = LoggerFactory.getLogger(BillHandler.class);
+    private final Logger log = LoggerFactory.getLogger(Handler.class);
 
     WebSocketSession session;
 
@@ -22,13 +22,6 @@ public class BillHandler extends TextWebSocketHandler {
 
         log.info("->afterConnectionEstablished");
         this.session = session;
-    }
-
-    @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-
-        log.info("->handleTextMessage:" + message);
-
     }
 
     public void sendMsg(String msj){
