@@ -1,14 +1,12 @@
 package com.ies.raspb_cab.web.rest;
 
+import com.ies.raspb_cab.ApplicationStartup;
 import com.ies.raspb_cab.config.Constants;
 import com.codahale.metrics.annotation.Timed;
 import com.ies.raspb_cab.domain.User;
 import com.ies.raspb_cab.repository.UserRepository;
 import com.ies.raspb_cab.security.AuthoritiesConstants;
-import com.ies.raspb_cab.service.BillControlService;
-import com.ies.raspb_cab.service.MailService;
-import com.ies.raspb_cab.service.QrcodeService;
-import com.ies.raspb_cab.service.UserService;
+import com.ies.raspb_cab.service.*;
 import com.ies.raspb_cab.service.dto.UserDTO;
 import com.ies.raspb_cab.web.rest.vm.ManagedUserVM;
 import com.ies.raspb_cab.web.rest.util.HeaderUtil;
@@ -19,6 +17,8 @@ import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -72,7 +72,14 @@ public class UserResource {
     @Autowired
     QrcodeService qrcodeService;
 
+    @Autowired
     BillControlService billControlService;
+
+    @Autowired
+    LectorControlService lectorControlService;
+
+    @Autowired
+    PrinterControlService printerControlService;
 
     public UserResource(UserRepository userRepository, MailService mailService,
             UserService userService) {
@@ -224,24 +231,43 @@ public class UserResource {
     }
 
     /**
-     * GET  /sendMsg?msg=  : send message by WebSocket.
-     *
-     * @param msg the text to convert
+     * GET  /enableBill
      * @return the ResponseEntity with status 200 (OK) and the QR code
      * or with status 400 (Bad Request) if @param is null, empty, or blank
      */
-    @GetMapping(value = "/sendMsg")
-    public ResponseEntity<Object> sendMsg(@RequestParam(value = "msg", required = true) String msg) {
+    @GetMapping(value = "/enable")
+    public ResponseEntity<Object> enable() {
 
-        log.info("Método get para el envío del siguiente msj: {}", msg);
-
+        log.info("Activar billetero");
+        //billControlService.enableBill();
+        //lectorControlService.enableLector();
+        printerControlService.enablePrinter();
 
         try{
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
             return ResponseEntity.badRequest().build();
         }
+    }
 
+    /**
+     * GET  /disableBill
+     * @return the ResponseEntity with status 200 (OK) and the QR code
+     * or with status 400 (Bad Request) if @param is null, empty, or blank
+     */
+    @GetMapping(value = "/disable")
+    public ResponseEntity<Object> disable() {
+
+        log.info("Desactivar billetero");
+        //billControlService.disableBill();
+        //lectorControlService.disableLector();
+        printerControlService.disablePrinter();
+
+        try{
+            return ResponseEntity.ok().build();
+        } catch (Exception ex) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }
