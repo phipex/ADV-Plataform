@@ -80,5 +80,6 @@ public class RaspbCabApp {
             InetAddress.getLocalHost().getHostAddress(),
             env.getProperty("server.port"),
             env.getActiveProfiles());
+
     }
 }
