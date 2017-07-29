@@ -1,0 +1,10 @@
+{
+    "backendCabinasApp": {
+        "EstadoCabina" : {
+            "null": "",
+            "ACTIVO": "ACTIVO",
+            "INACTIVO": "INACTIVO",
+            "BLOQUEADA": "BLOQUEADA"
+        }
+    }
+}
