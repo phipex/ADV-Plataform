@@ -27,7 +27,7 @@ public class ApplicationStartup
 
     @Autowired
     PrinterControlService printerControlService;
-    
+
     /**
      * This event is executed as late as conceivably possible to indicate that
      * the application is ready to service requests.
@@ -38,8 +38,8 @@ public class ApplicationStartup
         log.info("onApplicationEvent");
 
         billControlService.startConnection();
-        //lectorControlService.startConnection();//TODO Descomentar lector
-        //printerControlService.startConnection(); //TODO Descomentar printer
+        //lectorControlService.startConnection();//TODO(2) Descomentar lector.
+        //printerControlService.startConnection(); //TODO(4) Descomentar printer.
 
         return;
     }

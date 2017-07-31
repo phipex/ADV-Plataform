@@ -17,7 +17,7 @@ public class LectorControlService {
 
     private final Logger log = LoggerFactory.getLogger(LectorControlService.class);
 
-    private String url = "ws://localhost:9876";//TODO Definir puerto de websocket.
+    private String url = "ws://localhost:9876";//TODO(1) Definir puerto de websocket.
 
     public Handler handler;
 

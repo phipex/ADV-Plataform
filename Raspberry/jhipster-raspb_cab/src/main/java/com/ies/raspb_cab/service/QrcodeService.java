@@ -51,7 +51,7 @@ public class QrcodeService {
         try {
             matrix = new MultiFormatWriter().encode(text, BarcodeFormat.QR_CODE, width, height);
         } catch (WriterException e) {
-            log.error("WriterException - Problems with the matrix.", e);
+            log.error("WriterException: ", e);
             matrix = null;
         }
 

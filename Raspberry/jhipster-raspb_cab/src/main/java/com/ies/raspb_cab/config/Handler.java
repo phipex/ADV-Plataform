@@ -29,7 +29,7 @@ public class Handler extends TextWebSocketHandler {
         try {
             this.session.sendMessage(new TextMessage(msj));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info("IOException: " + e);
         }
 
     }

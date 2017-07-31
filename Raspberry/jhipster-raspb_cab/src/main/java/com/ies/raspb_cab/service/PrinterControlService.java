@@ -14,7 +14,7 @@ public class PrinterControlService {
 
     private final Logger log = LoggerFactory.getLogger(PrinterControlService.class);
 
-    private String url = "ws://localhost:9876";//TODO Definir puerto de websocket.
+    private String url = "ws://localhost:9876";//TODO(3) Definir puerto de websocket.
 
     public Handler handler;
 
