@@ -1,55 +1,27 @@
 package com.ies.raspb_cab.service;
 
-import com.ies.raspb_cab.config.Handler;
+import com.ies.raspb_cab.config.WebSocketClientManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
 @Service
 @Transactional
-public class BillControlService {
-
-    private String url = "ws://localhost:9876";
-
-    private Handler handler;
-
-    private WebSocketConnectionManager connectionManager() {
-
-        WebSocketConnectionManager manager = new WebSocketConnectionManager(client(), handler(), url);
-        manager.setAutoStartup(true);
-
-        return manager;
-    }
-
-    private StandardWebSocketClient client() {
-
-        return new StandardWebSocketClient();
-    }
-
-    private Handler handler(){
-
-        if(this.handler == null){
-            this.handler = new Handler();
-        }
-        return this.handler;
-    }
+public class BillControlService extends WebSocketClientManager {
 
     public void startConnection(){
 
-        WebSocketConnectionManager connectionManager = connectionManager();
+        WebSocketConnectionManager connectionManager = connectionManager("ws://localhost:9876");
         connectionManager.start();
-
     }
 
     public void enableBill(){
-
-        this.handler.sendMsg("on");
+        getHandler().sendMsg("on");
     }
 
     public void disableBill(){
 
-        this.handler.sendMsg("off");
+        getHandler().sendMsg("off");
     }
 
 }

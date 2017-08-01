@@ -11,9 +11,9 @@ import java.io.IOException;
 /**
  * Created by betancur343 on 28/07/17.
  */
-public class Handler extends TextWebSocketHandler {
+public class WebSocketHandler extends TextWebSocketHandler {
 
-    private final Logger log = LoggerFactory.getLogger(Handler.class);
+    private final Logger log = LoggerFactory.getLogger(WebSocketHandler.class);
 
     WebSocketSession session;
 
