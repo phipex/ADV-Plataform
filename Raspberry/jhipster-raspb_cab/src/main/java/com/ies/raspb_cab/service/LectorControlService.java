@@ -15,18 +15,9 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 @Transactional
 public class LectorControlService {
 
-    private final Logger log = LoggerFactory.getLogger(LectorControlService.class);
+    private String url = "ws://localhost:6543";
 
-    private String url = "ws://localhost:9876";//TODO(1) Definir puerto de websocket.
-
-    public Handler handler;
-
-    public void startConnection(){
-
-        WebSocketConnectionManager connectionManager = connectionManager();
-        connectionManager.start();
-
-    }
+    private Handler handler;
 
     private WebSocketConnectionManager connectionManager() {
 
@@ -47,6 +38,13 @@ public class LectorControlService {
             this.handler = new Handler();
         }
         return this.handler;
+    }
+
+    public void startConnection(){
+
+        WebSocketConnectionManager connectionManager = connectionManager();
+        connectionManager.start();
+
     }
 
     public void enableLector(){

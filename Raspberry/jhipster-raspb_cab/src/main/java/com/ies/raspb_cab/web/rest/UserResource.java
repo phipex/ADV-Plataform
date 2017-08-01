@@ -1,6 +1,5 @@
 package com.ies.raspb_cab.web.rest;
 
-import com.ies.raspb_cab.ApplicationStartup;
 import com.ies.raspb_cab.config.Constants;
 import com.codahale.metrics.annotation.Timed;
 import com.ies.raspb_cab.domain.User;
@@ -17,8 +16,6 @@ import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.*;
@@ -75,11 +72,13 @@ public class UserResource {
     @Autowired
     BillControlService billControlService;
 
+
     @Autowired
     LectorControlService lectorControlService;
 
     @Autowired
     PrinterControlService printerControlService;
+
 
     public UserResource(UserRepository userRepository, MailService mailService,
             UserService userService) {
@@ -89,6 +88,7 @@ public class UserResource {
         this.userService = userService;
 
     }
+
 
     /**
      * POST  /users  : Creates a new user.
@@ -226,6 +226,7 @@ public class UserResource {
             return ResponseEntity.ok().cacheControl(CacheControl.maxAge(30, TimeUnit.MINUTES))
                 .body(qrcodeService.generateQRCodeAsync(text, 256, 256).get());
         } catch (Exception ex) {
+            log.error("" + ex);
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "exception", ex.getLocalizedMessage())).body(null);
         }
     }
@@ -239,13 +240,15 @@ public class UserResource {
     public ResponseEntity<Object> enable() {
 
         log.info("Activar billetero");
-        //billControlService.enableBill();
-        //lectorControlService.enableLector();
+
+        billControlService.enableBill();
+        lectorControlService.enableLector();
         printerControlService.enablePrinter();
 
         try{
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
+            log.error("" + ex);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -259,13 +262,15 @@ public class UserResource {
     public ResponseEntity<Object> disable() {
 
         log.info("Desactivar billetero");
-        //billControlService.disableBill();
-        //lectorControlService.disableLector();
+
+        billControlService.disableBill();
+        lectorControlService.disableLector();
         printerControlService.disablePrinter();
 
         try{
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
+            log.error("" + ex);
             return ResponseEntity.badRequest().build();
         }
     }

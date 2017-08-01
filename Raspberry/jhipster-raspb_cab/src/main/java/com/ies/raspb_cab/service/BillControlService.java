@@ -12,14 +12,7 @@ public class BillControlService {
 
     private String url = "ws://localhost:9876";
 
-    public Handler handler;
-
-    public void startConnection(){
-
-        WebSocketConnectionManager connectionManager = connectionManager();
-        connectionManager.start();
-
-    }
+    private Handler handler;
 
     private WebSocketConnectionManager connectionManager() {
 
@@ -40,6 +33,13 @@ public class BillControlService {
             this.handler = new Handler();
         }
         return this.handler;
+    }
+
+    public void startConnection(){
+
+        WebSocketConnectionManager connectionManager = connectionManager();
+        connectionManager.start();
+
     }
 
     public void enableBill(){
