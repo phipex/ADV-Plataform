@@ -4,25 +4,25 @@
 
 case "$1" in
 	start)
-		if [ -f /home/betancur343/Escritorio/start.sh ];
-		#if [ -f /home/pi/Desktop/start.sh ];	
+		if [ -f /home/betancur343/Escritorio/startBill.sh ];
+		#if [ -f /home/pi/Desktop/startBill.sh ];	
 		          then
 			    echo $"Starting billAccepter daemon..."
-					/bin/su betancur343 /home/betancur343/Escritorio/start.sh
-					#/bin/su pi /home/pi/Desktop/start.sh
+					/bin/su betancur343 /home/betancur343/Escritorio/startBill.sh
+					#/bin/su pi /home/pi/Desktop/startBill.sh
 		        fi
 		;;
 	stop)
-		if [ -f /home/betancur343/Escritorio/stop.sh ];
-				#if [ -f /home/pi/Desktop/stop.sh ];	
+		if [ -f /home/betancur343/Escritorio/stopBill.sh ];
+				#if [ -f /home/pi/Desktop/stopBill.sh ];	
 				          then
 				echo $"Shutting down billAccepter daemon..."
-					/bin/su betancur343 /home/betancur343/Escritorio/stop.sh
-					#/bin/su pi /home/pi/Desktop/stop.sh
+					/bin/su betancur343 /home/betancur343/Escritorio/stopBill.sh
+					#/bin/su pi /home/pi/Desktop/stopBill.sh
 		        fi
 		;;
 	*)
-		echo $"Only: start | stop"		
+		echo $"Only: startBill | stopBill"		
 		exit 1
 		;;
 esac
