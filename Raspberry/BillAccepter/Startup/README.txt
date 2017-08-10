@@ -17,4 +17,4 @@ Realizar prueba del script:
 
 Luego, crear un enlace simbólico en la carpeta correspondiente al runlevel del arranque del sistema. En primera instancia se realizó para el runlevel 5, en la ruta /etc/rc5.d (revisar y asignar runlevel optimo)
 
-	Comando:	sudo ln -s  /etc/init.d/billAccepter /etc/rc3.d/S98billAccepter
+	Comando:	sudo ln -s  /etc/init.d/billAccepter /etc/rc5.d/S98billAccepter

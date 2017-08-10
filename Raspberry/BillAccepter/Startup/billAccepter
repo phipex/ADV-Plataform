@@ -14,11 +14,11 @@ case "$1" in
 		;;
 	stop)
 		if [ -f /home/betancur343/Escritorio/stop.sh ];
-				#if [ -f /home/pi/Desktop/start.sh ];	
+				#if [ -f /home/pi/Desktop/stop.sh ];	
 				          then
 				echo $"Shutting down billAccepter daemon..."
 					/bin/su betancur343 /home/betancur343/Escritorio/stop.sh
-					#/bin/su pi /home/pi/Desktop/start.sh
+					#/bin/su pi /home/pi/Desktop/stop.sh
 		        fi
 		;;
 	*)
