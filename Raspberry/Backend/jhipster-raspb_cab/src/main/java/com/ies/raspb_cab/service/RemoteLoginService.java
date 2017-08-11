@@ -1,18 +1,25 @@
 package com.ies.raspb_cab.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.Serializable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ies.raspb_cab.service.util.AbstractRestCallback;
 
 /**
  * Created by root on 1/08/17.
@@ -30,10 +37,12 @@ public class RemoteLoginService implements IRemoteLogin {
     private final Logger log = LoggerFactory.getLogger(RemoteLoginService.class);
 
     @Override
-    public boolean loginRemoto(CredentialsRest credencialesRest, Login login) {
+    public boolean loginRemoto(CredentialsRest credencialesRest, Login login, AbstractRestCallback restCallback) {
         boolean loginOk = false;
+        //TODO verificar que no lleguen nulos
+        
         String resourceUrl = credencialesRest.getUrl();
-        String newToken = postRequest(resourceUrl, login);
+        String newToken = postRequest(resourceUrl, login, restCallback);
 
         if(newToken != null && !"".equals(newToken)){
             credencialesRest.setToken(newToken);
@@ -49,11 +58,11 @@ public class RemoteLoginService implements IRemoteLogin {
      * @param login datos para el logeo
      * @return Token en caso de login exitoso
      */
-    private String postRequest(String resourceUrl,Login login){
+    private String postRequest(String resourceUrl,Login login,AbstractRestCallback restCallback){
 
         String token = null;
         String urlAutenticate = resourceUrl + "authenticate";
-        String tokenObject = requestAccion(urlAutenticate, login);
+        String tokenObject = requestAccion(urlAutenticate, login, restCallback);
 
         ObjectMapper mapper = new ObjectMapper();//objeto para mapear json
 
@@ -80,7 +89,7 @@ public class RemoteLoginService implements IRemoteLogin {
      * @param login objeto con los datos para realizar en login
      * @return
      */
-    private String requestAccion(String resourceUrl, Login login) {
+    private String requestAccion(String resourceUrl, Login login,AbstractRestCallback restCallback) {
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -116,14 +125,17 @@ public class RemoteLoginService implements IRemoteLogin {
                 //log.info("request correcto************* " + newResource + " ****");
                 newResource.append(bodyResponse);
                 log.info("request correcto************* " + newResource + " ****");
+                restCallback.callOnSucces(stringResponseEntity);
             }
 
         }
-        catch (HttpStatusCodeException e) {
-            log.info("HttpStatusCodeException: " + e);
+        catch (HttpStatusCodeException exception) {
+            log.info("HttpStatusCodeException: " + exception);
+            restCallback.callOnFailStatus(exception);
         }
         catch (RestClientException e) {
             log.info("RestClientException: " + e);
+            restCallback.callOnFailException(e);
         }
 
         //log.info("terminar correcto************* " + newResource + "****");
