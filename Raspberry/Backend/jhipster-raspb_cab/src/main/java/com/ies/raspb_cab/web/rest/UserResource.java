@@ -66,8 +66,7 @@ public class UserResource {
 
     private final UserService userService;
 
-    private final CounterService counterService;
-
+    
     @Autowired
     QrCodeService qrCodeService;
 
@@ -81,12 +80,12 @@ public class UserResource {
     */
 
     public UserResource(UserRepository userRepository, MailService mailService,
-            UserService userService, CounterService counterService) {
+            UserService userService) {
 
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.userService = userService;
-        this.counterService = counterService;
+        
     }
 
 
