@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.com.ies.adv.backend.cabinas.domain.EnumError;
+
 /**
  * View Model for transferring error message with a list of field errors.
  */
@@ -16,6 +18,10 @@ public class ErrorVM implements Serializable {
 
     private List<FieldErrorVM> fieldErrors;
 
+    public ErrorVM(EnumError enumError){
+    	this(enumError.code(), enumError.description());
+    }
+    
     public ErrorVM(String message) {
         this(message, null);
     }
