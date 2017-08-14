@@ -1,7 +1,20 @@
 package co.com.ies.adv.backend.cabinas.domain;
-
+/**
+ * 
+ * @author root
+ *
+ */
 public interface EnumError {
-	
+	/**
+	 * 
+	 * @return
+	 */
 	public abstract String code();
-    public abstract String description();
+    /**
+     * 
+     * @return
+     */
+	public abstract String description();
+    
+    
 }
