@@ -3,6 +3,7 @@ package co.com.ies.adv.backend.cabinas.domain.core.usecases;
 import java.math.BigDecimal;
 
 import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
+import co.com.ies.adv.backend.cabinas.domain.core.enumeration.ErroresCabina;
 import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 import co.com.ies.adv.backend.cabinas.domain.core.exceptions.CabinaException;
 import co.com.ies.adv.backend.cabinas.domain.core.repositorys.ICabinaRepository;
@@ -14,11 +15,11 @@ import co.com.ies.adv.backend.cabinas.domain.core.repositorys.ICabinaRepository;
  */
 public abstract class CabinaDomainService implements ICabinaDomainService {
 
-	public static final String ERROR_AL_INGRESAR_LA_CABINA_AL_SISTEMA = "Error al ingresar la cabina al sistema";
+	/*public static final String ERROR_AL_INGRESAR_LA_CABINA_AL_SISTEMA = "Error al ingresar la cabina al sistema";
 	public static final String LA_CABINA_NO_TIENE_CUPO = "La cabina no tiene cupo";
 	public static final String CABINA_SE_ENCUENTRA_INACTIVA = "Cabina se encuentra inactiva";
 	public static final String NO_HAY_CABINA_ASOCIADA_AL_USUARIO = "No hay cabina asociada al usuario";
-	
+*/	
 	private ICabinaRepository cabinaRepository;
 
 	/* (non-Javadoc)
@@ -39,7 +40,7 @@ public abstract class CabinaDomainService implements ICabinaDomainService {
 		ICabina cabina = cabinaRepository.findOneByUserId(userId);
 		
 		if(cabina == null){
-			throw new CabinaException(NO_HAY_CABINA_ASOCIADA_AL_USUARIO);
+			throw new CabinaException(ErroresCabina.NO_HAY_CABINA_ASOCIADA_AL_USUARIO);
 		}
 		
 		EstadoCabina estado = cabina.getEstado();
@@ -47,7 +48,7 @@ public abstract class CabinaDomainService implements ICabinaDomainService {
 		boolean noEsInactivo = !EstadoCabina.INACTIVO.equals(estado);
 		
 		if (!noEsInactivo) {
-			throw new CabinaException(CABINA_SE_ENCUENTRA_INACTIVA);
+			throw new CabinaException(ErroresCabina.CABINA_SE_ENCUENTRA_INACTIVA);
 		}
 		
 		BigDecimal cupo = cabina.getCupo();
@@ -55,7 +56,7 @@ public abstract class CabinaDomainService implements ICabinaDomainService {
 		boolean hayCupo = cupo != null && BigDecimal.ZERO.compareTo(cupo) < 0;
 		
 		if (!hayCupo) {
-			throw new CabinaException(LA_CABINA_NO_TIENE_CUPO);
+			throw new CabinaException(ErroresCabina.LA_CABINA_NO_TIENE_CUPO);
 		}
 		
 				
@@ -80,9 +81,9 @@ public abstract class CabinaDomainService implements ICabinaDomainService {
 				cabinaRepository.save(cabinaValida);
 			}
 		} catch (CabinaException e) {
-			throw new CabinaException(e.getMessage());
+			throw new CabinaException(e.getEnumError());
 		} catch (Exception e) {
-			throw new CabinaException(ERROR_AL_INGRESAR_LA_CABINA_AL_SISTEMA);
+			throw new CabinaException(ErroresCabina.ERROR_AL_INGRESAR_LA_CABINA_AL_SISTEMA);
 		}
 		
 		

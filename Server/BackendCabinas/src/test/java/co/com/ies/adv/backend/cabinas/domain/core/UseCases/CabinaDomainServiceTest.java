@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import co.com.ies.adv.backend.cabinas.domain.Cabina;
 import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
+import co.com.ies.adv.backend.cabinas.domain.core.enumeration.ErroresCabina;
 import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
 import co.com.ies.adv.backend.cabinas.domain.core.exceptions.CabinaException;
 import co.com.ies.adv.backend.cabinas.domain.core.repositorys.ICabinaRepository;
@@ -44,11 +45,8 @@ public class CabinaDomainServiceTest {
 	}
 
 	@Test
-	public void testValidaErrorNoExisteCabinaAsociada() throws CabinaException{
+	public void testValidaErrorNoExisteCabinaAsociada(){
 		MockRepository mockRepository = new MockRepository();
-		
-		exceptions.expect(CabinaException.class);
-        exceptions.expectMessage(CabinaDomainService.NO_HAY_CABINA_ASOCIADA_AL_USUARIO);
 		
 		CabinaDomainService service = new CabinaDomainService() {
 			
@@ -60,16 +58,23 @@ public class CabinaDomainServiceTest {
 		
 		service.setICabinaRepository(mockRepository);
 		
-		service.validaCabina(0L);
+		try {
+			service.validaCabina(0L);
+			assert(false);
+		} catch (CabinaException e) {
+			final String enumErrorResult = e.getEnumError().code();
+			final String enumErrorExpect = ErroresCabina.NO_HAY_CABINA_ASOCIADA_AL_USUARIO.code();
+			
+			assertEquals(enumErrorExpect, enumErrorResult);
+			
+		}
+		
 		
 	}
 	
 	@Test
-	public void testValidaErrorCabinaInactiva() throws CabinaException{
+	public void testValidaErrorCabinaInactiva() {
 		MockRepository mockRepository = new MockRepository();
-		
-		exceptions.expect(CabinaException.class);
-        exceptions.expectMessage(CabinaDomainService.CABINA_SE_ENCUENTRA_INACTIVA);
 		
 		CabinaDomainService service = new CabinaDomainService() {
 			
@@ -86,18 +91,23 @@ public class CabinaDomainServiceTest {
 		
 		service.setICabinaRepository(mockRepository);
 		
-		service.validaCabina(0L);
+		try {
+			service.validaCabina(0L);
+			assert(false);
+		} catch (CabinaException e) {
+			final String enumErrorResult = e.getEnumError().code();
+			final String enumErrorExpect = ErroresCabina.CABINA_SE_ENCUENTRA_INACTIVA.code();
+			
+			assertEquals(enumErrorExpect, enumErrorResult);
+			
+		}
 		
 	}
 	
 	@Test
 	public void testValidaErrorCabinaSinCupo() throws CabinaException{
 		MockRepository mockRepository = new MockRepository();
-		
 
-		exceptions.expect(CabinaException.class);
-        exceptions.expectMessage(CabinaDomainService.LA_CABINA_NO_TIENE_CUPO);
-		
 		CabinaDomainService service = new CabinaDomainService() {
 			
 			@Override
@@ -113,13 +123,21 @@ public class CabinaDomainServiceTest {
 		
 		service.setICabinaRepository(mockRepository);
 		
-		service.validaCabina(0L);
-		assertTrue(true);
+		try {
+			service.validaCabina(0L);
+			assert(false);
+		} catch (CabinaException e) {
+			final String enumErrorResult = e.getEnumError().code();
+			final String enumErrorExpect = ErroresCabina.LA_CABINA_NO_TIENE_CUPO.code();
+			
+			assertEquals(enumErrorExpect, enumErrorResult);
+			
+		}
 		
 	}
 	
 	@Test
-	public void testValidaCabinaOk() throws CabinaException{
+	public void testValidaCabinaOk(){
 		MockRepository mockRepository = new MockRepository();
 		
 		CabinaDomainService service = new CabinaDomainService() {
@@ -138,7 +156,12 @@ public class CabinaDomainServiceTest {
 		
 		service.setICabinaRepository(mockRepository);
 		
-		service.validaCabina(0L);
+		try {
+			service.validaCabina(0L);
+			assert(true);
+		} catch (CabinaException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -167,11 +190,8 @@ public class CabinaDomainServiceTest {
 	}
 	
 	@Test
-	public void testLoginErrorNoExisteCabinaAsociada() throws CabinaException{
+	public void testLoginErrorNoExisteCabinaAsociada(){
 		MockRepository mockRepository = new MockRepository();
-		
-		exceptions.expect(CabinaException.class);
-        exceptions.expectMessage(CabinaDomainService.NO_HAY_CABINA_ASOCIADA_AL_USUARIO);
 		
 		CabinaDomainService service = new CabinaDomainService() {
 			
@@ -183,16 +203,25 @@ public class CabinaDomainServiceTest {
 		
 		service.setICabinaRepository(mockRepository);
 		
-		service.loginCabina("CUALQUIERA");
-		assertTrue(false);
+		
+		
+		try {
+			service.loginCabina("CUALQUIERA");
+			assert(false);
+		} catch (CabinaException e) {
+			System.out.println("CabinaDomainServiceTest.java::testLoginErrorNoExisteCabinaAsociada::e"+e.getMessage());
+			final String enumErrorResult = e.getEnumError().code();
+			final String enumErrorExpect = ErroresCabina.NO_HAY_CABINA_ASOCIADA_AL_USUARIO.code();
+			
+			assertEquals(enumErrorExpect, enumErrorResult);
+			
+		}
+		
 	}
 	
 	@Test
-	public void testLoginErrorCabinaInactiva() throws CabinaException{
+	public void testLoginErrorCabinaInactiva(){
 		MockRepository mockRepository = new MockRepository();
-		
-		exceptions.expect(CabinaException.class);
-        exceptions.expectMessage(CabinaDomainService.CABINA_SE_ENCUENTRA_INACTIVA);
 		
 		CabinaDomainService service = new CabinaDomainService() {
 			
@@ -209,17 +238,22 @@ public class CabinaDomainServiceTest {
 		
 		service.setICabinaRepository(mockRepository);
 		
-		service.loginCabina("CUALQUIERA");
-		assertTrue(false);
+		try {
+			service.loginCabina("CUALQUIERA");
+			assert(false);
+		} catch (CabinaException e) {
+			final String enumErrorResult = e.getEnumError().code();
+			final String enumErrorExpect = ErroresCabina.CABINA_SE_ENCUENTRA_INACTIVA.code();
+			
+			assertEquals(enumErrorExpect, enumErrorResult);
+			
+		}
 		
 	}
 	
 	@Test
-	public void testLoginErrorCabinaSinCupo() throws CabinaException{
+	public void testLoginErrorCabinaSinCupo(){
 		MockRepository mockRepository = new MockRepository();
-		
-		exceptions.expect(CabinaException.class);
-        exceptions.expectMessage(CabinaDomainService.LA_CABINA_NO_TIENE_CUPO);
 		
 		CabinaDomainService service = new CabinaDomainService() {
 			
@@ -236,8 +270,16 @@ public class CabinaDomainServiceTest {
 		
 		service.setICabinaRepository(mockRepository);
 		
-		service.loginCabina("CUALQUIERA");
-		assertTrue(false);
+		try {
+			service.loginCabina("CUALQUIERA");
+			assert(false);
+		} catch (CabinaException e) {
+			final String enumErrorResult = e.getEnumError().code();
+			final String enumErrorExpect = ErroresCabina.LA_CABINA_NO_TIENE_CUPO.code();
+			
+			assertEquals(enumErrorExpect, enumErrorResult);
+			
+		}
 		
 	}
 	
