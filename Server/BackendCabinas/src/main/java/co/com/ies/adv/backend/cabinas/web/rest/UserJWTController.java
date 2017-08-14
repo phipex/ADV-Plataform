@@ -1,20 +1,9 @@
 package co.com.ies.adv.backend.cabinas.web.rest;
 
-import co.com.ies.adv.backend.cabinas.domain.Authority;
-import co.com.ies.adv.backend.cabinas.domain.Cabina;
-import co.com.ies.adv.backend.cabinas.domain.User;
-import co.com.ies.adv.backend.cabinas.domain.core.entities.ICabina;
-import co.com.ies.adv.backend.cabinas.domain.core.enumeration.EstadoCabina;
-import co.com.ies.adv.backend.cabinas.domain.core.exceptions.CabinaException;
-import co.com.ies.adv.backend.cabinas.security.AuthoritiesConstants;
-import co.com.ies.adv.backend.cabinas.security.jwt.JWTConfigurer;
-import co.com.ies.adv.backend.cabinas.security.jwt.TokenProvider;
-import co.com.ies.adv.backend.cabinas.service.CabinaService;
-import co.com.ies.adv.backend.cabinas.service.UserService;
-import co.com.ies.adv.backend.cabinas.web.rest.vm.LoginVM;
+import java.util.Collections;
 
-import com.codahale.metrics.annotation.Timed;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +14,22 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
+import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import co.com.ies.adv.backend.cabinas.domain.EnumError;
+import co.com.ies.adv.backend.cabinas.domain.core.exceptions.CabinaException;
+import co.com.ies.adv.backend.cabinas.security.jwt.JWTConfigurer;
+import co.com.ies.adv.backend.cabinas.security.jwt.TokenProvider;
+import co.com.ies.adv.backend.cabinas.service.CabinaService;
+import co.com.ies.adv.backend.cabinas.service.UserService;
+import co.com.ies.adv.backend.cabinas.web.rest.errors.ErrorVM;
+import co.com.ies.adv.backend.cabinas.web.rest.vm.LoginVM;
 
 /**
  * Controller to authenticate users.
@@ -46,14 +44,11 @@ public class UserJWTController {
 
     private final AuthenticationManager authenticationManager;
     
-    private final UserService userService;
-    
     private final CabinaService cabinaService;
 
     public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager, UserService userService, CabinaService cabinaService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
-        this.userService = userService;
         this.cabinaService = cabinaService;
     }
 
@@ -66,15 +61,24 @@ public class UserJWTController {
 
         try {
         	
-        	cabinaService.loginCabina(loginVM.getUsername());
+        	
         	
         	Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+            cabinaService.loginCabina(loginVM.getUsername());
+            
             boolean rememberMe = (loginVM.isRememberMe() == null) ? false : loginVM.isRememberMe();
             String jwt = tokenProvider.createToken(authentication, rememberMe);
             response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
             return ResponseEntity.ok(new JWTToken(jwt));
-        } catch (AuthenticationException | CabinaException ae) {
+        }catch (CabinaException ae) {
+        	EnumError enumError = ae.getEnumError();
+        	ErrorVM cabinaError = new ErrorVM(enumError);
+            log.trace("Authentication exception trace: {}", ae);
+            return new ResponseEntity<>(Collections.singletonMap("CabinaException",
+            		cabinaError), HttpStatus.UNAUTHORIZED);
+        }catch (AuthenticationException ae) {
             log.trace("Authentication exception trace: {}", ae);
             return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",
                 ae.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
