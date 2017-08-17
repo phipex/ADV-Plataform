@@ -14,7 +14,7 @@ public interface IRestCallback {
      * cuando la peticion tiene http status code 200
      * @param stringResponseEntity
      */
-    void onSucces(ResponseEntity<String> stringResponseEntity);
+    void onSuccess(ResponseEntity<String> stringResponseEntity);
 
     /**
      * evento que entrega la exception en caso de que la peticion no

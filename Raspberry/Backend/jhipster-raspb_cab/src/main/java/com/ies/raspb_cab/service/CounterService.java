@@ -6,13 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 /**
  * Service Implementation for managing Counter.
@@ -85,6 +81,7 @@ public class CounterService {
      *  @param billValue the value of new bill
      */
     public void update(int billValue) {
+        //TODO Evaluar el caso en que no halla registros en entidad Counter.
         log.debug("Request to update Counter: {}", lastElement);
         Counter counter = counterRepository.findOne(lastElement);
         counter.setRegistry(getCurrentDate());

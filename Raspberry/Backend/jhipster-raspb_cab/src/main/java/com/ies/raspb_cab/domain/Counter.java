@@ -28,7 +28,7 @@ public class Counter implements Serializable {
 
     @NotNull
     @Column(name = "counter", nullable = false)
-    private Integer counter;
+    private Integer counter;//TODO Renombrar campo counter.
 
     @NotNull
     @Column(name = "total", nullable = false)

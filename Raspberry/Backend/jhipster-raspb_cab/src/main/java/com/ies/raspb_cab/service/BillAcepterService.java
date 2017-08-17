@@ -36,7 +36,7 @@ public class BillAcepterService extends WebSocketClientManager {
      * @param msg
      */
     @Override
-    public void Listener(String msg){
+    public void listener(String msg){
 
         if (msg.substring(0, 1).matches("\\d")) {
             int billValue = Integer.parseInt(msg);

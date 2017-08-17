@@ -15,7 +15,7 @@ public abstract class AbstractRestCallback implements IRestCallback{
      * @param stringResponseEntity
      */
     public void callOnSucces(ResponseEntity<String> stringResponseEntity){
-        onSucces(stringResponseEntity);
+        onSuccess(stringResponseEntity);
     }
 
     /**

@@ -7,7 +7,6 @@ import com.ies.raspb_cab.web.rest.util.HeaderUtil;
 import com.ies.raspb_cab.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
-import javassist.runtime.Desc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

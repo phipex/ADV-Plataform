@@ -12,24 +12,24 @@ import java.io.IOException;
 
 public class WebSocketClientManager {
 
-    private final Logger log = LoggerFactory.getLogger(com.ies.raspb_cab.config.WebSocketClientManager.class);
     private WebSocketHandler handler;
 
     public WebSocketHandler getHandler() {
         return this.handler;
-    }
 
+    }
     public WebSocketConnectionManager connectionManager(String urlBill) {
 
         WebSocketConnectionManager manager = new WebSocketConnectionManager(client(), handler(), urlBill);
+
         manager.setAutoStartup(true);
 
         return manager;
     }
 
     private StandardWebSocketClient client() {
-
         return new StandardWebSocketClient();
+
     }
 
     private WebSocketHandler handler(){
@@ -46,8 +46,10 @@ public class WebSocketClientManager {
      *
      * @param msg
      */
-    public void Listener(String msg){
-
+    public void listener(String msg){
+        /**
+         * Override method
+         */
     }
 
     /**
@@ -60,18 +62,20 @@ public class WebSocketClientManager {
 
         private WebSocketSession session;
 
-        @Override
-        public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-
-            log.info("->afterConnectionEstablished");
-            this.session = session;
+        public Logger getLog() {
+            return log;
         }
 
         @Override
-        protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+        public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+            this.session = session;
 
-            log.info("->handleTextMessage: " + message.getPayload());
-            Listener(message.getPayload());
+        }
+
+        @Override
+        protected void handleTextMessage(WebSocketSession session, TextMessage message)
+            throws Exception {
+            listener(message.getPayload());
         }
 
         /**
@@ -79,12 +83,14 @@ public class WebSocketClientManager {
          * @param msj
          */
         public void sendMsg(String msj){
-
             try {
                 this.session.sendMessage(new TextMessage(msj));
+
             } catch (IOException e) {
-                log.info("IOException: " + e);
+                getLog().debug("sendMsg::IOException: " + e);
+
             }
+
         }
 
     }

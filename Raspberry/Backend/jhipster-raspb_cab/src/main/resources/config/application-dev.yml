@@ -139,3 +139,6 @@ jhipster:
 # ===================================================================
 
 application:
+    url: http://localhost:8080/api/
+    user: probe
+    password: probe

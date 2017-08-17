@@ -16,7 +16,7 @@
             <label class="form-control-label" jhiTranslate="raspbCabApp.counter.registry"
                    for="field_registry">Registry</label>
             <input type="text" class="form-control" name="registry" id="field_registry"
-                [(ngModel)]="counter.registry" readonly />
+                [(ngModel)]="counter.registry" required />
             <div [hidden]="!(editForm.controls.registry?.dirty && editForm.controls.registry?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.registry?.errors?.required" jhiTranslate="entity.validation.required">

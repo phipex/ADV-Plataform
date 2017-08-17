@@ -30,7 +30,9 @@ public class CodeLectorService extends WebSocketClientManager {
      * @param msg
      */
     @Override
-    public void Listener(String msg) {
-
+    public void listener(String msg) {
+        /**
+         *
+         */
     }
 }

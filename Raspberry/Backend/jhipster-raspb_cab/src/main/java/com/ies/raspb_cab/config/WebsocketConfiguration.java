@@ -2,8 +2,6 @@ package com.ies.raspb_cab.config;
 
 import com.ies.raspb_cab.security.AuthoritiesConstants;
 import io.github.jhipster.config.JHipsterProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -29,10 +27,7 @@ import java.util.Optional;
 @EnableWebSocketMessageBroker
 public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
 
-    private final Logger log = LoggerFactory.getLogger(WebsocketConfiguration.class);
-
     public static final String IP_ADDRESS = "IP_ADDRESS";
-
     private final JHipsterProperties jHipsterProperties;
 
     public WebsocketConfiguration(JHipsterProperties jHipsterProperties) {
@@ -69,7 +64,9 @@ public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfig
 
             @Override
             public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception exception) {
-
+                /**
+                 *
+                 */
             }
         };
     }

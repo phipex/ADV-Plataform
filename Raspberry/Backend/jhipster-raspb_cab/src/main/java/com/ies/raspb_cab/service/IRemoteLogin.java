@@ -8,6 +8,7 @@ import com.ies.raspb_cab.service.util.AbstractRestCallback;
  * @author root
  *
  */
+@FunctionalInterface
 public interface IRemoteLogin {
 
     /**
