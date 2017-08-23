@@ -43,7 +43,7 @@ public class UserJWTController {
     private final TokenProvider tokenProvider;
 
     private final AuthenticationManager authenticationManager;
-    
+
     private final CabinaService cabinaService;
 
     public UserJWTController(TokenProvider tokenProvider, AuthenticationManager authenticationManager, UserService userService, CabinaService cabinaService) {
@@ -58,33 +58,31 @@ public class UserJWTController {
 
         UsernamePasswordAuthenticationToken authenticationToken =
             new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
-
+        log.info("authenticate.Backend");    
         try {
-        	
-        	
-        	
+
         	Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            
+
             cabinaService.loginCabina(loginVM.getUsername());
-            
+
             boolean rememberMe = (loginVM.isRememberMe() == null) ? false : loginVM.isRememberMe();
             String jwt = tokenProvider.createToken(authentication, rememberMe);
             response.addHeader(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
             return ResponseEntity.ok(new JWTToken(jwt));
-        }catch (CabinaException ae) {
-        	EnumError enumError = ae.getEnumError();
+        }catch (CabinaException ce) {
+        	EnumError enumError = ce.getEnumError();
         	ErrorVM cabinaError = new ErrorVM(enumError);
-            log.trace("Authentication exception trace: {}", ae);
+            log.trace("Cabina exception trace: {}", ce);
             return new ResponseEntity<>(Collections.singletonMap("CabinaException",
-            		cabinaError), HttpStatus.UNAUTHORIZED);
-        }catch (AuthenticationException ae) {
-            log.trace("Authentication exception trace: {}", ae);
+            		cabinaError), HttpStatus.BAD_REQUEST);
+        }catch (AuthenticationException | NullPointerException e) {
+            log.trace("Authentication exception trace: {}", e);
             return new ResponseEntity<>(Collections.singletonMap("AuthenticationException",
-                ae.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
+                e.getLocalizedMessage()), HttpStatus.UNAUTHORIZED);
         }
     }
-    
+
     /**
      * Object to return as body in JWT Authentication.
      */
