@@ -82,11 +82,9 @@ public class RemoteLoginService implements IRemoteLogin {
 
         } catch (JsonProcessingException e) {
             //TODO Qué hacer cuando jsonNode = null?
-            getLog().debug("postRequest::JsonProcessingException: " + e);
-
+            getLog().debug("postRequest::JsonProcessingException: {}", e.getMessage());
         } catch (IOException e) {
-            getLog().debug("postRequest::IOException: " + e);
-
+            getLog().debug("postRequest::IOException {}", e.getMessage());
         }
 
         return token;
@@ -109,7 +107,7 @@ public class RemoteLoginService implements IRemoteLogin {
             jsonInString = mapper.writeValueAsString(login);
 
         } catch (JsonProcessingException e) {
-            getLog().debug("requestAccion::JsonProcessingException: " + e);
+            getLog().debug("requestAccion::JsonProcessingException: {}", e);
 
         }
 
@@ -131,15 +129,12 @@ public class RemoteLoginService implements IRemoteLogin {
                 restCallback.callOnSucces(stringResponseEntity);
 
             }
-
         }
         catch (HttpStatusCodeException e) {
             restCallback.callOnFailStatus(e);
-
         }
         catch (RestClientException e) {
             restCallback.callOnFailException(e);
-
         }
 
         return newResource.toString();
@@ -186,6 +181,7 @@ public class RemoteLoginService implements IRemoteLogin {
     /**
      * Credenciales para login de cabina...
      */
+
     public static class CredentialsRest {
 
         private String url;

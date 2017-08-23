@@ -66,7 +66,7 @@ public class CounterService {
     }
 
     /**
-     *  Delete the  counter by id.
+     *  Delete the counter by id.
      *
      *  @param id the id of the entity
      */

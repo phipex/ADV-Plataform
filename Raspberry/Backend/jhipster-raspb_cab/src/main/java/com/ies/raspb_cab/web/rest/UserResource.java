@@ -7,6 +7,7 @@ import com.ies.raspb_cab.repository.UserRepository;
 import com.ies.raspb_cab.security.AuthoritiesConstants;
 import com.ies.raspb_cab.service.*;
 import com.ies.raspb_cab.service.dto.UserDTO;
+import com.ies.raspb_cab.service.util.AbstractRestCallback;
 import com.ies.raspb_cab.web.rest.vm.ManagedUserVM;
 import com.ies.raspb_cab.web.rest.util.HeaderUtil;
 import com.ies.raspb_cab.web.rest.util.PaginationUtil;
@@ -66,7 +67,9 @@ public class UserResource {
 
     private final UserService userService;
 
-    
+    @Autowired
+    RemoteClientService remoteClientService;
+
     @Autowired
     QrCodeService qrCodeService;
 
@@ -85,7 +88,7 @@ public class UserResource {
         this.userRepository = userRepository;
         this.mailService = mailService;
         this.userService = userService;
-        
+
     }
 
 
