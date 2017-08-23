@@ -1,5 +1,7 @@
 package com.ies.raspb_cab.security.jwt;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -18,6 +20,8 @@ import java.io.IOException;
  */
 public class JWTFilter extends GenericFilterBean {
 
+    private final Logger log = LoggerFactory.getLogger(JWTFilter.class);
+
     private TokenProvider tokenProvider;
 
     public JWTFilter(TokenProvider tokenProvider) {
@@ -29,9 +33,14 @@ public class JWTFilter extends GenericFilterBean {
         throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String jwt = resolveToken(httpServletRequest);
-        if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
-            Authentication authentication = this.tokenProvider.getAuthentication(jwt);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        if (StringUtils.hasText(jwt)) {
+            if (this.tokenProvider.validateToken(jwt)){
+                Authentication authentication = this.tokenProvider.getAuthentication(jwt);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                log.info("JWTFilter::doFilter");
+            }
         }
         filterChain.doFilter(servletRequest, servletResponse);
     }

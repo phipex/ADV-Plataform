@@ -1,5 +1,6 @@
 package com.ies.raspb_cab.security.jwt;
 
+import com.ies.raspb_cab.service.RemoteClientService;
 import io.github.jhipster.config.JHipsterProperties;
 
 import java.util.*;
@@ -8,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,6 +37,9 @@ public class TokenProvider {
     public TokenProvider(JHipsterProperties jHipsterProperties) {
         this.jHipsterProperties = jHipsterProperties;
     }
+
+    @Autowired
+    private RemoteClientService remoteClientService;
 
     @PostConstruct
     public void init() {
@@ -95,8 +100,12 @@ public class TokenProvider {
             log.info("Invalid JWT token.");
             log.trace("Invalid JWT token trace: {}", e);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT token.");
+            log.info("Expired JWT token.Raspberry");
             log.trace("Expired JWT token trace: {}", e);
+            /**
+             *Refresca credenciales una vez token expira.
+             */
+            remoteClientService.refreshCredentials();
         } catch (UnsupportedJwtException e) {
             log.info("Unsupported JWT token.");
             log.trace("Unsupported JWT token trace: {}", e);
