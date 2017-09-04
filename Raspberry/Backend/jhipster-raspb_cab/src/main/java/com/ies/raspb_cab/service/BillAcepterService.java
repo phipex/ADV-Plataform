@@ -14,9 +14,6 @@ public class BillAcepterService extends WebSocketClientManager {
 
     private final Logger log = LoggerFactory.getLogger(BillAcepterService.class);
 
-    @Autowired
-    CounterService counterService;
-
     public void startConnection(){
         WebSocketConnectionManager connectionManager = connectionManager("ws://localhost:9876");
         connectionManager.start();
@@ -52,7 +49,7 @@ public class BillAcepterService extends WebSocketClientManager {
      */
     public void updateCounter(int bill){
         log.info("->updateCounter: " + bill);
-        counterService.update(bill);
+        //counter.update(bill);
     }
 
 }

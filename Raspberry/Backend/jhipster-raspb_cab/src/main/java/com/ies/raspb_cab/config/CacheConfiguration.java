@@ -40,7 +40,6 @@ public class CacheConfiguration {
             cm.createCache(com.ies.raspb_cab.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.ies.raspb_cab.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.ies.raspb_cab.domain.User.class.getName() + ".authorities", jcacheConfiguration);
-            cm.createCache(com.ies.raspb_cab.domain.Counter.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

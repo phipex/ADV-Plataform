@@ -2,8 +2,8 @@ README: Startup billetero
 
 Ubicar los siguientes script en el escritorio de la raspberry: /home/pi/Desktop
 
-	"start.sh"
-	"stop.sh"
+	"startBill.sh"
+	"stopBill.sh"
 
 Para iniciar el billetero con el sistema, instalar el archivo "billAccepter" en la ruta: /etc/init.d/ y asignar permisos de ejecución.
 	
